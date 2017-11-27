@@ -38,7 +38,6 @@ const unsigned int number_of_partitions_per_axis = 64;
 
 int main()
 {
-	//	timeGetTime();
 	//	setlocale(LC_ALL,"Rus");
 
 	//	__cilkrts_end_cilk();
@@ -52,14 +51,6 @@ int main()
 	//	cout << "Duration is: " << time_span.count() << " seconds" << endl;
 	//	auto duration = duration_cast<microseconds>(t2 - t1).count();
 	//	cout << duration << " sec";
-
-	//	string good_boxes_file = "D:/Study/Dissertation/GoodBoxes.txt";
-	//	string bad_boxes_file = "D:/Study/Dissertation/BadBoxes.txt";
-	//	string intersecting_boxes_file = "D:/Study/Dissertation/IntersectingBoxes.txt";
-	//	main_object.WriteInFileGoodBoxes( good_boxes_file );
-	//	main_object.WriteInFileBadBoxes( bad_boxes_file );
-	//	main_object.WriteInFileIntersectingBoxes( intersecting_boxes_file );
-
 
 	return 0;
 }
