@@ -2,37 +2,38 @@
 #include <cmath>
 
 //------------------------------------------------------------------------------------------
-Box::Box(const std::vector<double>& init_vec) :
-	x_min(init_vec[0]), widht(init_vec[1]), y_min(init_vec[2]),
-	height(init_vec[3]), phi_min(init_vec[4]), phi_range(init_vec[5]) {}
+Box::Box(const double* iparams) :
+	x_min(iparams[0]), x_range(iparams[1]), y_min(iparams[2]),
+	y_range(iparams[3]), phi_min(iparams[4]), phi_range(iparams[5]) {}
 
 //------------------------------------------------------------------------------------------
-void Box::GetParameters(std::vector<double>& params_vec) const
+void Box::GetParameters(double* oparams) const
 {
-	params_vec.push_back(x_min);
-	params_vec.push_back(widht);
-	params_vec.push_back(y_min);
-	params_vec.push_back(height);
-	params_vec.push_back(phi_min);
-	params_vec.push_back(phi_range);
+	oparams[0]= x_min;
+	oparams[1] = x_range;
+	oparams[2] = y_min;
+	oparams[3] = y_range;
+	oparams[4] = phi_min;
+	oparams[5] = phi_range;
 }
 
 //------------------------------------------------------------------------------------------
-void Box::GetWidhtHeight(double& par_width, double& par_height) const
+void Box::GetXYPhiRanges(double& ox_range, double& oy_range, double& ophi_range) const
 {
-	par_width = widht;
-	par_height = height;
+	ox_range = x_range;
+	oy_range = y_range;
+	ophi_range = phi_range;
 }
 
 //------------------------------------------------------------------------------------------
-void Box::GetAngleRange(double& angle_min, double& angle_range) const
+void Box::GetAngleRange(double& oangle_min, double& oangle_range) const
 {
-	angle_min = phi_min;
-	angle_range = phi_range;
+	oangle_min = phi_min;
+	oangle_range = phi_range;
 }
 
 //------------------------------------------------------------------------------------------
 double Box::GetDiagonal() const
 {
-	return sqrt(widht*widht + height*height);
+	return sqrt(x_range*x_range + y_range*y_range + phi_range*phi_range);
 }
