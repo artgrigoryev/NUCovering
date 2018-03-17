@@ -37,3 +37,19 @@ double Box::GetDiagonal() const
 {
 	return sqrt(x_range*x_range + y_range*y_range + phi_range*phi_range);
 }
+
+//------------------------------------------------------------------------------------------
+//Box& Box::operator= (const Box& other)
+//{
+//	if (this == &other) 
+//		return *this;
+//
+//	x_min	= other.x_min;
+//	x_range = other.x_range;
+//	y_min	= other.y_min;
+//	y_range = other.y_range;
+//	phi_min = other.phi_min;
+//	phi_min = other.phi_range;
+//
+//	return *this;
+//}

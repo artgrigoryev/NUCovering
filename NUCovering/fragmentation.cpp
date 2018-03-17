@@ -9,35 +9,46 @@
 
 using std::vector;
 
-const double p_min2 = p_min*p_min;
-const double p_max2 = p_max*p_max;
-const double TWO_PI = M_PI * 2;
+//******************************************************************************************
+// // Определение констант
+//******************************************************************************************
+// 2 ПИ радиан
+const double TWO_PI = M_PI * 2.0;
 
-// общее количество точек на всех 3-х осях координат
-const unsigned int points_in_3d = (unsigned) pow(points_per_axis, 3.0);
-
-const unsigned int squared_points_per_axis = points_per_axis*points_per_axis;
-
-// общее количество функций gj
-const unsigned int amount_of_gjs = 18;
-// количество функций gj в группе gj[]
-const unsigned int func_per_group = 3;
+const double P_MIN2 = p_min*p_min;
+const double P_MAX2 = p_max*p_max;
 
 // коэффициент, используемый для перевода значения угла из градусов в радианы
-const double val_to_radian = M_PI / 180.0;
+const double DEGREES_2_RADIAN = M_PI / 180.0;
 // коэффициент, используемый для перевода значения угла из радианов в градусы
-const double radian_to_val = 180.0 / M_PI;
+const double RADIAN_2_DEGREES = 180.0 / M_PI;
+
+// значение ПИ радиан в градусах
+const double PI_DEGREES = 180.0;
+// значение 2 ПИ радиан в градусах
+const double TWO_PI_DEGREES = 360.0;
+
+// количество точек в квадрате (суммарное по двум осям)
+const unsigned int SQUARED_POINTS_PER_AXIS = points_per_axis*points_per_axis;
+// общее количество точек в 3-х измерениях в рамках рассматриваемого box'a 
+const unsigned int TOTAL_POINTS_IN_BOX = SQUARED_POINTS_PER_AXIS*points_per_axis;
+
+// общее количество функций gj
+const unsigned int AMOUNT_OF_Gjs = 18;
+//******************************************************************************************
+
+
 
 //------------------------------------------------------------------------------------------
 inline double Xci(const unsigned int& i, const double& phi)
 {
-	return xa[i] - xb[i] * cos(phi * val_to_radian) + yb[i] * sin(phi * val_to_radian);
+	return xa[i] - xb[i] * cos(phi * DEGREES_2_RADIAN) + yb[i] * sin(phi * DEGREES_2_RADIAN);
 }
 
 //------------------------------------------------------------------------------------------
 inline double Yci(const unsigned int& i, const double& phi)
 {
-	return ya[i] - xb[i] * sin(phi * val_to_radian) - yb[i] * cos(phi* val_to_radian);
+	return ya[i] - xb[i] * sin(phi * DEGREES_2_RADIAN) - yb[i] * cos(phi * DEGREES_2_RADIAN);
 }
 
 //------------------------------------------------------------------------------------------
@@ -45,7 +56,7 @@ inline double Yci(const unsigned int& i, const double& phi)
 // вращающейся плоскости O'xy, относительно неподвижной плоскости Oxy
 inline double XbiOxy(const unsigned int& i, const double& x, const double& phi)
 {
-	return x + xb[i] * cos(phi * val_to_radian) - yb[i] * sin(phi * val_to_radian);
+	return x + xb[i] * cos(phi * DEGREES_2_RADIAN) - yb[i] * sin(phi * DEGREES_2_RADIAN);
 }
 
 //------------------------------------------------------------------------------------------
@@ -53,24 +64,28 @@ inline double XbiOxy(const unsigned int& i, const double& x, const double& phi)
 // вращающейся плоскости O'xy, относительно неподвижной плоскости Oxy
 inline double YbiOxy(const unsigned int& i, const double& y, const double& phi)
 {
-	return y + xb[i] * sin(phi* val_to_radian) + yb[i] * cos(phi * val_to_radian);
+	return y + xb[i] * sin(phi * DEGREES_2_RADIAN) + yb[i] * cos(phi * DEGREES_2_RADIAN);
 }
 
-/// functions gj()
-//------------------------------------------------------------------------------------------
+
+//******************************************************************************************
+// // Определение функций gj()
+//******************************************************************************************
 void g2i_1(const double& x, const double& y, const double& phi, vector<double>& func_values)
 {
-	double a1 = XbiOxy(0, x, y) - xa[0];
+	double a1 = XbiOxy(0, x, phi) - xa[0];
 	double a2 = YbiOxy(0, y, phi) - ya[0];
-	func_values.push_back(a1*a1 + a2*a2 - p_max2);
+	func_values.push_back(a1*a1 + a2*a2 - P_MAX2);
 	
-	a1 = XbiOxy(1, x, y) - xa[1];
+	//
+	a1 = XbiOxy(1, x, phi) - xa[1];
 	a2 = YbiOxy(1, y, phi) - ya[1];
-	func_values.push_back(a1*a1 + a2*a2 - p_max2);
+	func_values.push_back(a1*a1 + a2*a2 - P_MAX2);
 
-	a1 = XbiOxy(2, x, y) - xa[2];
+	//
+	a1 = XbiOxy(2, x, phi) - xa[2];
 	a2 = YbiOxy(2, y, phi) - ya[2];
-	func_values.push_back(a1*a1 + a2*a2 - p_max2);
+	func_values.push_back(a1*a1 + a2*a2 - P_MAX2);
 }
 
 //------------------------------------------------------------------------------------------
@@ -78,147 +93,205 @@ void g2i(const double& x, const double& y, const double& phi, vector<double>& fu
 {
 	double a1 = XbiOxy(0, x, phi) - Xci(0, phi);
 	double a2 = YbiOxy(0, y, phi) - Yci(0, phi);
-	func_values.push_back(p_min2 - a1*a1 - a2*a2);
+	func_values.push_back(P_MIN2 - a1*a1 - a2*a2);
 
+	//
 	a1 = XbiOxy(1, x, phi) - Xci(1, phi);
 	a2 = YbiOxy(1, y, phi) - Yci(1, phi);
-	func_values.push_back(p_min2 - a1*a1 - a2*a2);
+	func_values.push_back(P_MIN2 - a1*a1 - a2*a2);
 
+	//
 	a1 = XbiOxy(2, x, phi) - Xci(2, phi);
 	a2 = YbiOxy(2, y, phi) - Yci(2, phi);
-	func_values.push_back(p_min2 - a1*a1 - a2*a2);
+	func_values.push_back(P_MIN2 - a1*a1 - a2*a2);
 }
 
 //------------------------------------------------------------------------------------------
 void g2i_5(const double& x, const double& y, const double& phi, vector<double>& func_values)
 {
-	double a1 = YbiOxy(0, y, phi) - ya[0];
-	double a2 = XbiOxy(0, x, phi) - xa[0];
-	func_values.push_back((atan2(a1, a2) * radian_to_val) - theta_ai_max[0]);
+	double dist_y = YbiOxy(0, y, phi) - ya[0];
+	double dist_x = XbiOxy(0, x, phi) - xa[0];
+	//func_values.push_back((atan2(dist_y, dist_x) * RADIAN_2_DEGREES) - theta_ai_max[0]);
+	
+	//double comp = (atan2(diff_y, diff_x) * RADIAN_2_DEGREES) - theta_ai_max[0];
 
-	a1 = YbiOxy(1, y, phi) - ya[1];
-	a2 = XbiOxy(1, x, phi) - xa[1];
-	func_values.push_back((atan2(a1, a2) * radian_to_val) - theta_ai_max[1]);
+	// modified 27.02.18
+	double rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
+	if (dist_y >= 0.0) 
+		func_values.push_back(acos(dist_x / rho_i)*RADIAN_2_DEGREES - theta_ai_max[0]);
+	else 
+		func_values.push_back((TWO_PI - acos(dist_x / rho_i))*RADIAN_2_DEGREES - theta_ai_max[0]);
 
-	a1 = YbiOxy(2, y, phi) - ya[2];
-	a2 = XbiOxy(2, x, phi) - xa[2];
-	func_values.push_back((atan2(a1, a2) * radian_to_val) - theta_ai_max[2]);
+	//
+	dist_y = YbiOxy(1, y, phi) - ya[1];
+	dist_x = XbiOxy(1, x, phi) - xa[1];
+	//func_values.push_back((atan2(dist_y, dist_x) * RADIAN_2_DEGREES) - theta_ai_max[1]);
+
+	//comp = (atan2(diff_y, diff_x) * RADIAN_2_DEGREES) - theta_ai_max[1];
+
+	// modified 27.02.18
+	rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
+	if (dist_y >= 0.0) 
+		func_values.push_back(acos(dist_x / rho_i)*RADIAN_2_DEGREES - theta_ai_max[1]);
+	else 
+		func_values.push_back((TWO_PI - acos(dist_x / rho_i))*RADIAN_2_DEGREES - theta_ai_max[1]);
+
+	//
+	dist_y = YbiOxy(2, y, phi) - ya[2];
+	dist_x = XbiOxy(2, x, phi) - xa[2];
+	//func_values.push_back((atan2(dist_y, dist_x) * RADIAN_2_DEGREES) - theta_ai_max[2]);
+
+	//comp = (atan2(diff_y, diff_x) * RADIAN_2_DEGREES) - theta_ai_max[2];
+
+	// modified 27.02.18
+	rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
+	if (dist_y >= 0.0) 
+		func_values.push_back(acos(dist_x / rho_i)*RADIAN_2_DEGREES - theta_ai_max[2]);
+	else 
+		func_values.push_back((TWO_PI - acos(dist_x / rho_i))*RADIAN_2_DEGREES - theta_ai_max[2]);
 }
 
 //------------------------------------------------------------------------------------------
 void g2i_6(const double& x, const double& y, const double& phi, vector<double>& func_values)
 {
-	double a1 = YbiOxy(0, y, phi) - ya[0];
-	double a2 = XbiOxy(0, x, phi) - xa[0];
-	func_values.push_back(theta_ai_min[0] - (atan2(a1, a2) * radian_to_val));
+	double dist_y = YbiOxy(0, y, phi) - ya[0];
+	double dist_x = XbiOxy(0, x, phi) - xa[0];
+	//func_values.push_back(theta_ai_min[0] - (atan2(dist_y, dist_x) * RADIAN_2_DEGREES));
 
-	a1 = YbiOxy(1, y, phi) - ya[1];
-	a2 = XbiOxy(1, x, phi) - xa[1];
-	func_values.push_back(theta_ai_min[1] - (atan2(a1, a2) * radian_to_val));
+	// modified 27.02.18
+	double rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
+	if (dist_y >= 0.0) 
+		func_values.push_back(theta_ai_min[0] - acos(dist_x / rho_i)*RADIAN_2_DEGREES);
+	else 
+		func_values.push_back(theta_ai_min[0] + (acos(dist_x / rho_i) - TWO_PI)*RADIAN_2_DEGREES);
 
-	a1 = YbiOxy(2, y, phi) - ya[2];
-	a2 = XbiOxy(2, x, phi) - xa[2];
-	func_values.push_back(theta_ai_min[2] - (atan2(a1, a2) * radian_to_val));
+	//
+	dist_y = YbiOxy(1, y, phi) - ya[1];
+	dist_x = XbiOxy(1, x, phi) - xa[1];
+	//func_values.push_back(theta_ai_min[1] - (atan2(dist_y, dist_x) * RADIAN_2_DEGREES));
+
+	// modified 27.02.18
+	rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
+	if (dist_y >= 0.0) 
+		func_values.push_back(theta_ai_min[1] - acos(dist_x / rho_i)*RADIAN_2_DEGREES);
+	else 
+		func_values.push_back(theta_ai_min[1] + (acos(dist_x / rho_i) - TWO_PI)*RADIAN_2_DEGREES);
+
+	//
+	dist_y = YbiOxy(2, y, phi) - ya[2];
+	dist_x = XbiOxy(2, x, phi) - xa[2];
+	//func_values.push_back(theta_ai_min[2] - (atan2(dist_y, dist_x) * RADIAN_2_DEGREES));
+
+	// modified 27.02.18
+	rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
+	if (dist_y >= 0.0) 
+		func_values.push_back(theta_ai_min[2] - acos(dist_x / rho_i)*RADIAN_2_DEGREES);
+	else 
+		func_values.push_back(theta_ai_min[2] + (acos(dist_x / rho_i) - TWO_PI)*RADIAN_2_DEGREES);
 }
 
 //------------------------------------------------------------------------------------------
 void g2i_11(const double& x, const double& y, const double& phi, vector<double>& func_values)
 {
-	double diff_x = XbiOxy(0, x, phi) - xa[0];
-	double diff_y = YbiOxy(0, y, phi) - ya[0];
-	double rho_i = sqrt(diff_x * diff_x + diff_y * diff_y);
+	double dist_x = XbiOxy(0, x, phi) - xa[0];
+	double dist_y = YbiOxy(0, y, phi) - ya[0];
+	double rho_i = sqrt(dist_x * dist_x + dist_y * dist_y);
 
 	double theta_ai;
 
-	if (diff_y >= 0.0)
-		theta_ai = acos(diff_x / rho_i) * radian_to_val;
+	if (dist_y >= 0.0)
+		theta_ai = acos(dist_x / rho_i) * RADIAN_2_DEGREES;
 	else
-		theta_ai = TWO_PI - (acos(diff_x / rho_i) * radian_to_val);
+		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
-	if ((theta_ai - phi + M_PI) < TWO_PI)
-		func_values.push_back( theta_ai - phi + M_PI - theta_bi_max[0]);
+	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
+		func_values.push_back( theta_ai - phi + PI_DEGREES - theta_bi_max[0]);
 	else
-		func_values.push_back(theta_ai - phi - M_PI - theta_bi_max[0]);
+		func_values.push_back(theta_ai - phi - PI_DEGREES - theta_bi_max[0]);
 
+	//
+	dist_x = XbiOxy(1, x, phi) - xa[1];
+	dist_y = YbiOxy(1, y, phi) - ya[1];
+	rho_i = sqrt(dist_x * dist_x + dist_y * dist_y);
 
-	diff_x = XbiOxy(1, x, phi) - xa[1];
-	diff_y = YbiOxy(1, y, phi) - ya[1];
-	rho_i = sqrt(diff_x * diff_x + diff_y * diff_y);
-
-	if (diff_y >= 0.0)
-		theta_ai = acos(diff_x / rho_i) * radian_to_val;
+	if (dist_y >= 0.0)
+		theta_ai = acos(dist_x / rho_i) * RADIAN_2_DEGREES;
 	else
-		theta_ai = TWO_PI - (acos(diff_x / rho_i) * radian_to_val);
+		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
-	if ((theta_ai - phi + M_PI) < TWO_PI)
-		func_values.push_back(theta_ai - phi + M_PI - theta_bi_max[1]);
+	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
+		func_values.push_back(theta_ai - phi + PI_DEGREES - theta_bi_max[1]);
 	else
-		func_values.push_back(theta_ai - phi - M_PI - theta_bi_max[1]);
+		func_values.push_back(theta_ai - phi - PI_DEGREES - theta_bi_max[1]);
 
+	//
+	dist_x = XbiOxy(2, x, phi) - xa[2];
+	dist_y = YbiOxy(2, y, phi) - ya[2];
+	rho_i = sqrt(dist_x * dist_x + dist_y * dist_y);
 
-	diff_x = XbiOxy(2, x, phi) - xa[2];
-	diff_y = YbiOxy(2, y, phi) - ya[2];
-	rho_i = sqrt(diff_x * diff_x + diff_y * diff_y);
-
-	if (diff_y >= 0.0)
-		theta_ai = acos(diff_x / rho_i) * radian_to_val;
+	if (dist_y >= 0.0)
+		theta_ai = acos(dist_x / rho_i) * RADIAN_2_DEGREES;
 	else
-		theta_ai = TWO_PI - (acos(diff_x / rho_i) * radian_to_val);
+		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
-	if ((theta_ai - phi + M_PI) < TWO_PI)
-		func_values.push_back(theta_ai - phi + M_PI - theta_bi_max[2]);
+	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
+		func_values.push_back(theta_ai - phi + PI_DEGREES - theta_bi_max[2]);
 	else
-		func_values.push_back(theta_ai - phi - M_PI - theta_bi_max[2]);
+		func_values.push_back(theta_ai - phi - PI_DEGREES - theta_bi_max[2]);
 }
 
 //------------------------------------------------------------------------------------------
 void g2i_12(const double& x, const double& y, const double& phi, vector<double>& func_values)
 {
-	double diff_x = XbiOxy(0, x, phi) - xa[0];
-	double diff_y = YbiOxy(0, y, phi) - ya[0];
-	double rho_i = sqrt(diff_x * diff_x + diff_y * diff_y);
+	double dist_x = XbiOxy(0, x, phi) - xa[0];
+	double dist_y = YbiOxy(0, y, phi) - ya[0];
+	double rho_i = sqrt(dist_x * dist_x + dist_y * dist_y);
 
 	double theta_ai;
 
-	if (diff_y >= 0.0)
-		theta_ai = acos(diff_x / rho_i) * radian_to_val;
+	if (dist_y >= 0.0)
+		theta_ai = acos(dist_x / rho_i) * RADIAN_2_DEGREES;
 	else
-		theta_ai = TWO_PI - (acos(diff_x / rho_i) * radian_to_val);
+		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
-	if ((theta_ai - phi + M_PI) < TWO_PI)
-		func_values.push_back(theta_bi_min[0] - theta_ai + phi - M_PI);
+	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
+		func_values.push_back(theta_bi_min[0] - theta_ai + phi - PI_DEGREES);
 	else
-		func_values.push_back(theta_bi_min[0] - theta_ai + phi + M_PI);
+		func_values.push_back(theta_bi_min[0] - theta_ai + phi + PI_DEGREES);
 
+	//
+	dist_x = XbiOxy(1, x, phi) - xa[1];
+	dist_y = YbiOxy(1, y, phi) - ya[1];
+	rho_i = sqrt(dist_x * dist_x + dist_y * dist_y);
 
-	diff_x = XbiOxy(1, x, phi) - xa[1];
-	diff_y = YbiOxy(1, y, phi) - ya[1];
-	rho_i = sqrt(diff_x * diff_x + diff_y * diff_y);
-
-	if (diff_y >= 0.0)
-		theta_ai = acos(diff_x / rho_i) * radian_to_val;
+	if (dist_y >= 0.0)
+		theta_ai = acos(dist_x / rho_i) * RADIAN_2_DEGREES;
 	else
-		theta_ai = TWO_PI - (acos(diff_x / rho_i) * radian_to_val);
+		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
-	if ((theta_ai - phi + M_PI) < TWO_PI)
-		func_values.push_back(theta_bi_min[1] - theta_ai + phi - M_PI);
+	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
+		func_values.push_back(theta_bi_min[1] - theta_ai + phi - PI_DEGREES);
 	else
-		func_values.push_back(theta_bi_min[1] - theta_ai + phi + M_PI);
+		func_values.push_back(theta_bi_min[1] - theta_ai + phi + PI_DEGREES);
 
-	diff_x = XbiOxy(2, x, phi) - xa[2];
-	diff_y = YbiOxy(2, y, phi) - ya[2];
-	rho_i = sqrt(diff_x * diff_x + diff_y * diff_y);
+	//
+	dist_x = XbiOxy(2, x, phi) - xa[2];
+	dist_y = YbiOxy(2, y, phi) - ya[2];
+	rho_i = sqrt(dist_x * dist_x + dist_y * dist_y);
 
-	if (diff_y >= 0.0)
-		theta_ai = acos(diff_x / rho_i) * radian_to_val;
+	if (dist_y >= 0.0)
+		theta_ai = acos(dist_x / rho_i) * RADIAN_2_DEGREES;
 	else
-		theta_ai = TWO_PI - (acos(diff_x / rho_i) * radian_to_val);
+		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
-	if ((theta_ai - phi + M_PI) < TWO_PI)
-		func_values.push_back(theta_bi_min[2] - theta_ai + phi - M_PI);
+	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
+		func_values.push_back(theta_bi_min[2] - theta_ai + phi - PI_DEGREES);
 	else
-		func_values.push_back(theta_bi_min[2] - theta_ai + phi + M_PI);
+		func_values.push_back(theta_bi_min[2] - theta_ai + phi + PI_DEGREES);
 }
+//******************************************************************************************
+
+
 
 //------------------------------------------------------------------------------------------
 void GetFuncValuesInPoint(const double& x, const double& y, const double& phi, vector<double>& func_values)
@@ -230,6 +303,7 @@ void GetFuncValuesInPoint(const double& x, const double& y, const double& phi, v
 	g2i_11(x, y, phi, func_values);
 	g2i_12(x, y, phi, func_values);
 }
+
 
 
 /// контейнер box-ов, входящих в аппроксимацию рабочего простраства
@@ -306,7 +380,6 @@ void low_level_fragmentation::SplitByPhi(const Box& box, boxes_pair& new_pair_of
 	new_pair_of_boxes.second = Box(new_box_params);
 }
 
-
 //------------------------------------------------------------------------------------------
 void low_level_fragmentation::GetNewBoxes(const Box& box, boxes_pair& new_pair_of_boxes) const
 {
@@ -372,11 +445,15 @@ void low_level_fragmentation::ClasifyBox(const Box& box, const std::vector<doubl
 
 	if (func_values.empty() == false)
 	{
-		if (func_values.back() < 0.0)				// func_values.back() - максимум
-			solution.push_back(box);				// входит во множество решений
-		else if (func_values.front() > 0.0)			// func_values.front() - минимум
-			not_solution.push_back(box);			// в таком случае рассматриваемый box не входит во множество решений
-		else										// подлежит разбинению и дальнейшему анализу
+		// Пара итераторов; первый итератор - указывает на наименьший элемент,
+		// второй - на наибольший.
+		auto min_max_elem = std::minmax_element(func_values.begin(), func_values.end());
+
+		if (*min_max_elem.second < 0.0)				// min_max_elem.second - итератор на максимум
+			solution.push_back(box);				// рассматриваемый box входит во множество решений
+		else if (*min_max_elem.first > 0.0)			// min_max_elem.first - итератор на минимум
+			not_solution.push_back(box);			// рассматриваемый box не входит во множество решений
+		else										// рассматриваемый box подлежит разбинению и дальнейшему анализу
 		{
 			boxes_pair another_boxes;
 			GetNewBoxes(box, another_boxes);				
@@ -396,15 +473,14 @@ void low_level_fragmentation::GetBoxType( const Box& box)
 
 	// вектор хранящий значения максимумов всех функций gj в пределах box'a 
 	vector<double> func_values;
-	func_values.reserve(points_in_3d);
+	func_values.reserve(TOTAL_POINTS_IN_BOX);
 
 	GetFusncValues(box, func_values);
-
-	//printf("max_values vector size = %Iu\n", max_values.size());
 
 	ClasifyBox(box, func_values);
 }
 
+//------------------------------------------------------------------------------------------
 void GetGjValues(const double* box_params, vector<double>& gj_values)
 {
 	// определение границ по оси x
@@ -415,6 +491,7 @@ void GetGjValues(const double* box_params, vector<double>& gj_values)
 	// вычитаем единицу т.к. кол-во отрезков, на которые делится ось координат 
 	// всегда на единицу меньше, чем кол-во точек на этой оси
 	unsigned parts_per_axis = points_per_axis - 1;
+
 	// определение шага сетки по координате x
 	double step_x = x_range / parts_per_axis;
 
@@ -422,59 +499,63 @@ void GetGjValues(const double* box_params, vector<double>& gj_values)
 	double y_min = box_params[2];
 	double y_range = box_params[3];
 	double y_max = y_min + y_range;
+
 	// определение шага сетки по координате y
-	// вычитаем единицу т.к. кол-во отрезков, на которые делится ось координат 
-	// всегда на единицу меньше, чем кол-во точек на этой оси
 	double step_y = y_range / parts_per_axis;
 
 	// определение границ по оси phi
 	double phi_min = box_params[4];
 	double phi_range = box_params[5];
 	double phi_max = phi_min + phi_range;
+
 	// определение шага сетки по координате phi
 	double step_phi = phi_range / parts_per_axis;
 
 	// координаты первой рассматриваемой точки на сетке
 	double x = x_min, y = y_min, phi = phi_min;
 	
-	// находим значение всех 18 функций в начальной точке
-	//GetFuncValuesInPoint(x, y, phi, gj_values);
-	
-	//cilk_for(unsigned k = 1; k <= total_amount_of_partions; ++k)
+	vector<double> func_vals_in_curr_point;
+	func_vals_in_curr_point.reserve(AMOUNT_OF_Gjs);
+
+	vector<double>::const_iterator max_elem_iter;
 
 	// цикл по всем точкам, лежащим внутри box-а
-	for (unsigned k = 0; k < points_in_3d; ++k)
+	for (unsigned k = 0; k < TOTAL_POINTS_IN_BOX; ++k)
 	{ 
 		// определяем координаты очередной точки на сетке
 		x = x_min + step_x*(k % points_per_axis);
 		y = y_min + step_y*((k / points_per_axis) % points_per_axis);
-		phi = phi_min + step_phi*(k / squared_points_per_axis);
-		
-		GetFuncValuesInPoint(x, y, phi, gj_values);
+		phi = phi_min + step_phi*(k / SQUARED_POINTS_PER_AXIS);
+
+		GetFuncValuesInPoint(x, y, phi, func_vals_in_curr_point);
+
+		max_elem_iter = std::max_element(func_vals_in_curr_point.begin(), func_vals_in_curr_point.end());
+		gj_values.push_back(*max_elem_iter);
+
+		func_vals_in_curr_point.clear();
 	}
-	
-	std::sort(gj_values.begin(), gj_values.end());
 }
 
+//------------------------------------------------------------------------------------------
 high_level_analysis::high_level_analysis(const double* init_params) :
 	low_level_fragmentation(init_params) {}
 
+//------------------------------------------------------------------------------------------
 high_level_analysis::high_level_analysis(Box& box) : low_level_fragmentation(box) {}
 
-/// 
+//------------------------------------------------------------------------------------------ 
 void high_level_analysis::GetFusncValues(const Box& box, vector<double>& max_vals)
 {
 	//puts("GetMaxs()");
 
 	double curr_box_diagonal = box.GetDiagonal();
-	//printf("cur_box diagonal = %lf\n", curr_box_diagonal);
 
 	if (curr_box_diagonal > g_precision)
 	{
 		double* box_params = new double[6];
 		box.GetParameters(box_params);
 
-		// нахождение максимумов всех 18 функций в рассматриваемом box-е
+		// нахождение максимумов всех 18 функций gj() на рассматриваемом box-е
 		GetGjValues(box_params, max_vals);
 	}
 	else	// достигнута желаемая точность аппроксимации рабочего пространства
@@ -483,18 +564,13 @@ void high_level_analysis::GetFusncValues(const Box& box, vector<double>& max_val
 	}
 }
 
-///
+//------------------------------------------------------------------------------------------
 void high_level_analysis::GetSolution()
 {
-	// initial box is defined in main()
-//	vector<double> initial_box_params = { -20.0, 40.0, -20.0, 40.0, 0.0, 360.0 };
-//	current_box = Box(initial_box_params);
+	unsigned int tree_depth = FindTreeDepth();
 
-	unsigned int tree_depth = FindTreeDepth();		// find out number of outer loop iterations
+	//printf("Tree depth is %d \n", tree_depth);
 
-	printf("Tree depth is %d \n", tree_depth);
-
-	//next_iter_boxes->push_back(current_box);
 	next_iter_boxes.push_back(current_box);
 
 	vector<Box> curr_iter_boxes, empty_vec;
@@ -503,18 +579,16 @@ void high_level_analysis::GetSolution()
 
 	for (unsigned int level = 0; level < (tree_depth + 1); ++level)
 	{
-		//printf("Level = %d\n", level);
-
 		size_t number_of_box_on_level = next_iter_boxes.size();
 
 		//next_iter_boxes.move_out(curr_iter_boxes);
+
 		curr_iter_boxes = next_iter_boxes;
 
 		// ! необходимо очищать содержимое next_iter_boxes
 		//next_iter_boxes.set_value(empty_vec);
-		next_iter_boxes.clear();
 
-		//printf("level is %d ",level);
+		next_iter_boxes.clear();
 
 		//cilk_for(size_t i = 0; i < number_of_box_on_level; ++i)
 		for (size_t i = 0; i < number_of_box_on_level; ++i)
@@ -525,179 +599,68 @@ void high_level_analysis::GetSolution()
 	}
 }
 
-
-
-
-
-
-///// 
-//void WriteResults( const char* file_names[], unsigned int number_of_files )
-//{
-//	if (number_of_files != 3)
-//	{
-//		puts("NOT 3 elments!");
-//		return;
-//	}
-//
-//	std::ofstream fout(file_names[0]);
-//
-//	if (fout.is_open() == false)
-//	{
-//		puts("Can't open file for writing!");
-//		return;
-//	}
-//	else
-//	{
-//		//vector<Box> result_solution;
-//		//solution.move_out(result_solution);
-//
-//		//double left, bottom, width, height;
-//
-//		std::vector<Box>::const_iterator res_it_beg = solution.begin();
-//		std::vector<Box>::const_iterator res_it_end = solution.end();
-//
-//		vector<double> box_params;
-//		box_params.reserve(6);
-//
-//		for (res_it_beg; res_it_beg != res_it_end; ++res_it_beg)
-//		{
-//			res_it_beg->GetParameters(box_params);
-//
-//			fout << box_params[0] << ' ' << box_params[2] << ' ' << box_params[1] << ' ' << box_params[3] << '\n';
-//		}
-//
-//		fout.close();
-//	}
-//
-//
-//	std::ofstream fout2(file_names[1]);
-//
-//	if (fout2.is_open() == false)
-//	{
-//		puts("Ошибка при открытии файла!");
-//		return;
-//	}
-//	else
-//	{
-//		//vector<Box> result_solution;
-//		//solution.move_out(result_solution);
-//
-//		//double left, bottom, width, height;
-//
-//		std::vector<Box>::const_iterator res_it_beg = not_solution.begin();
-//		std::vector<Box>::const_iterator res_it_end = not_solution.end();
-//
-//		vector<double> box_params;
-//		box_params.reserve(6);
-//
-//		for (res_it_beg; res_it_beg != res_it_end; ++res_it_beg)
-//		{
-//			res_it_beg->GetParameters(box_params);
-//
-//			fout2 << box_params[0] << ' ' << box_params[2] << ' ' << box_params[1] << ' ' << box_params[3] << '\n';
-//		}
-//
-//		fout2.close();
-//	}
-//
-//	std::ofstream fout3(file_names[2]);
-//
-//	if (fout3.is_open() == false)
-//	{
-//		puts("Ошибка при открытии файла!");
-//		return;
-//	}
-//	else
-//	{
-//		//vector<Box> result_solution;
-//		//solution.move_out(result_solution);
-//
-//		//double left, bottom, width, height;
-//
-//		std::vector<Box>::const_iterator res_it_beg = not_solution.begin();
-//		std::vector<Box>::const_iterator res_it_end = not_solution.end();
-//
-//		vector<double> box_params;
-//		box_params.reserve(6);
-//
-//		for (res_it_beg; res_it_beg != res_it_end; ++res_it_beg)
-//		{
-//			res_it_beg->GetParameters(box_params);
-//
-//			fout3 << box_params[0] << ' ' << box_params[2] << ' ' << box_params[1] << ' ' << box_params[3] << '\n';
-//		}
-//
-//		fout3.close();
-//	}
-//}
-
-
-void PrintWorkspace()
+//------------------------------------------------------------------------------------------
+void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size)
 {
-	puts("Printing workspace!");
+	//mxArray* matlab_x_min = mxCreateDoubleMatrix(1, 1, mxREAL);
+	//mxArray* matlab_x_max = mxCreateDoubleMatrix(1, 1, mxREAL);
+	//mxArray* matlab_y_min = mxCreateDoubleMatrix(1, 1, mxREAL);
+	//mxArray* matlab_y_max = mxCreateDoubleMatrix(1, 1, mxREAL);
 
-	Engine* matlab_ptr;
-	matlab_ptr = engOpen("null");
+	//double* vs_x_min = mxGetPr(matlab_x_min);
+	//double* vs_x_max = mxGetPr(matlab_x_max);
+	//double* vs_y_min = mxGetPr(matlab_y_min);
+	//double* vs_y_max = mxGetPr(matlab_y_max);
 
-	mxArray* matlab_x_min = mxCreateDoubleMatrix(1, 1, mxREAL);
-	mxArray* matlab_x_max = mxCreateDoubleMatrix(1, 1, mxREAL);
-	mxArray* matlab_y_min = mxCreateDoubleMatrix(1, 1, mxREAL);
-	mxArray* matlab_y_max = mxCreateDoubleMatrix(1, 1, mxREAL);
+	//engEvalString(matlab_ptr, "figure('units','normalized','outerposition',[0 0 1 1]),");
+	//engEvalString(matlab_ptr, "hold on,");
 
-	double* vs_x_min = mxGetPr(matlab_x_min);
-	double* vs_x_max = mxGetPr(matlab_x_max);
-	double* vs_y_min = mxGetPr(matlab_y_min);
-	double* vs_y_max = mxGetPr(matlab_y_max);
+	//size_t sol_sz = solution.size();
+	//size_t not_sol_sz = not_solution.size();
+	//size_t boundary_sz = boundary.size();
 
-	engEvalString(matlab_ptr, "figure('units','normalized','outerposition',[0 0 1 1]),");
-	engEvalString(matlab_ptr, "hold on,");
+	//printf("Size of solution vector = %Iu\n", sol_sz);
+	//	
+	//printf("Size of not_solution vector = %Iu\n", not_sol_sz);
+	//printf("Size of boundary vector = %Iu\n", boundary_sz);
 
-	size_t sol_sz = solution.size();
-	size_t not_sol_sz = not_solution.size();
-	size_t boundary_sz = boundary.size();
+	//std::vector<Box>::const_iterator solution_it_begin = solution.begin();
+	//std::vector<Box>::const_iterator solution_it_end = solution.end();
 
-	printf("Size of solution vector = %Iu\n", sol_sz);
-		
-	printf("Size of not_solution vector = %Iu\n", not_sol_sz);
-	printf("Size of boundary vector = %Iu\n", boundary_sz);
+	//double* box_params = new double[6];
+	//double phi_min, phi_max;
 
-	std::vector<Box>::const_iterator solution_it_begin = solution.begin();
-	std::vector<Box>::const_iterator solution_it_end = solution.end();
+	//for (solution_it_begin; solution_it_begin != solution_it_end; ++solution_it_begin)
+	//{
 
-	double* box_params = new double[6];
-	double phi_min, phi_max;
+	//	solution_it_begin->GetParameters(box_params);
 
-	for (solution_it_begin; solution_it_begin != solution_it_end; ++solution_it_begin)
-	{
+	//	*vs_x_min = box_params[0];
+	//	*vs_x_max = *vs_x_min + box_params[1];
 
-		solution_it_begin->GetParameters(box_params);
+	//	*vs_y_min = box_params[2];
+	//	*vs_y_max = *vs_y_min + box_params[3];
 
-		*vs_x_min = box_params[0];
-		*vs_x_max = *vs_x_min + box_params[1];
+	//	phi_min = box_params[4];
+	//	phi_max = phi_min + box_params[5];
 
-		*vs_y_min = box_params[2];
-		*vs_y_max = *vs_y_min + box_params[3];
+	//	//printf("phi_min = %lf  phi_max = %lf\n", phi_min, phi_max);
 
-		phi_min = box_params[4];
-		phi_max = phi_min + box_params[5];
+	//	if (cmp_angle >= phi_min && cmp_angle <= phi_max)
+	//	{
+	//		puts("plotting!");
 
-		printf("phi_min = %lf  phi_max = %lf\n", phi_min, phi_max);
+	//		engPutVariable(matlab_ptr, "x_min", matlab_x_min);
+	//		engPutVariable(matlab_ptr, "x_max", matlab_x_max);
+	//		engPutVariable(matlab_ptr, "y_min", matlab_y_min);
+	//		engPutVariable(matlab_ptr, "y_max", matlab_y_max);
 
-		if (cmp_angle >= phi_min && cmp_angle <= phi_max)
-		{
-			puts("plotting!");
-
-			engPutVariable(matlab_ptr, "x_min", matlab_x_min);
-			engPutVariable(matlab_ptr, "x_max", matlab_x_max);
-			engPutVariable(matlab_ptr, "y_min", matlab_y_min);
-			engPutVariable(matlab_ptr, "y_max", matlab_y_max);
-
-			engEvalString(matlab_ptr, "line([x_min x_max], [y_min, y_min], 'color', 'green'),");
-			engEvalString(matlab_ptr, "line([x_min x_min], [y_min, y_max], 'color', 'green'),");
-			engEvalString(matlab_ptr, "line([x_min x_max], [y_max, y_max], 'color', 'green'),");
-			engEvalString(matlab_ptr, "line([x_max x_max], [y_min, y_max], 'color', 'green')");
-		}
-	}
+	//		engEvalString(matlab_ptr, "line([x_min x_max], [y_min, y_min], 'color', 'green'),");
+	//		engEvalString(matlab_ptr, "line([x_min x_min], [y_min, y_max], 'color', 'green'),");
+	//		engEvalString(matlab_ptr, "line([x_min x_max], [y_max, y_max], 'color', 'green'),");
+	//		engEvalString(matlab_ptr, "line([x_max x_max], [y_min, y_max], 'color', 'green')");
+	//	}
+	//}
 
 	////engEvalString(matlab_ptr, "axis([0 8 0 8])");
 
@@ -710,4 +673,159 @@ void PrintWorkspace()
 	mxDestroyArray(matlab_y_max);
 
 	engClose(matlab_ptr);*/
+
+	const unsigned number_of_params = 6;
+	size_t solution_sz = solution.size();
+	size_t not_solution_sz = not_solution.size();
+	size_t boundary_sz = boundary.size();
+
+	printf("Solution sz = %zu\n", solution_sz);
+	printf("NOT Solution sz = %zu\n", not_solution_sz);
+	printf("Boundary sz = %zu\n", boundary_sz);
+
+	double params[6];
+
+	solution[0].GetParameters(params);
+	printf("\nSol[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+
+	not_solution[0].GetParameters(params);
+	printf("Not_sol[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+
+	boundary[0].GetParameters(params);
+	printf("Boundary[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+
+	// solution
+	double* sol_arr = new double[number_of_params*solution_sz];
+	vector<Box>::const_iterator beg_iter = solution.begin();
+	vector<Box>::const_iterator end_iter = solution.end();
+
+	unsigned i = 0;
+	for (beg_iter; beg_iter != end_iter; ++beg_iter, ++i)
+	{
+		beg_iter->GetParameters(params);
+		memcpy(sol_arr + i*number_of_params, params, number_of_params * sizeof(double));
+	}
+	
+	// not_soltion
+	double* not_sol_arr = new double[number_of_params*not_solution_sz];
+	beg_iter = not_solution.begin();
+	end_iter = not_solution.end();
+
+	i = 0;
+	for (beg_iter; beg_iter != end_iter; ++beg_iter, ++i)
+	{
+		beg_iter->GetParameters(params);
+		memcpy(not_sol_arr + i*number_of_params, params, number_of_params * sizeof(double));
+	}
+
+	// boundary
+	double* boundary_arr = new double[number_of_params*boundary_sz];
+	beg_iter = boundary.begin();
+	end_iter = boundary.end();
+
+	i = 0;
+	for (beg_iter; beg_iter != end_iter; ++beg_iter, ++i)
+	{
+		beg_iter->GetParameters(params);
+		memcpy(boundary_arr + i*number_of_params, params, number_of_params * sizeof(double));
+	}
+
+	// высвобождение памяти в VS
+	solution.shrink_to_fit();
+	not_solution.shrink_to_fit();
+	boundary.shrink_to_fit();
+
+
+
+
+	// 
+	puts("Printing workspace!");
+
+	Engine* engine_ptr = engOpen(NULL);
+
+	mxArray* matlab_sol_array = mxCreateDoubleMatrix(number_of_params, solution_sz, mxREAL);
+	mxArray* matlab_not_sol_array = mxCreateDoubleMatrix(number_of_params, not_solution_sz, mxREAL);
+	mxArray* matlab_boundary_array = mxCreateDoubleMatrix(number_of_params, boundary_sz, mxREAL);
+	mxArray* matlab_cmp_angles = mxCreateDoubleMatrix(1, cmp_angles_size, mxREAL);
+	mxArray* matlab_delta = mxCreateDoubleMatrix(1, 1, mxREAL);
+
+	memcpy(mxGetPr(matlab_delta), &g_precision, sizeof(double));
+	engPutVariable(engine_ptr, "delta", matlab_delta);
+
+	memcpy(mxGetPr(matlab_cmp_angles), &cmp_angles[0], cmp_angles_size*sizeof(double));
+	engPutVariable(engine_ptr, "cmp_angles", matlab_cmp_angles);
+
+	// копируем вектор box'ов, являющихся решением исходной системы 
+	//memcpy(mxGetPr(matlab_sol_array), &solution[0], solution_sz * sizeof(Box));
+	//engPutVariable(engine_ptr, "sol_array", matlab_sol_array);
+	
+	memcpy(mxGetPr(matlab_sol_array), &sol_arr[0], number_of_params * solution_sz * sizeof(double));
+	engPutVariable(engine_ptr, "sol_array", matlab_sol_array);
+	engEvalString(engine_ptr, "sol_array = sol_array';");				// необходимо дополнительно транспонировать!
+
+	// копируем вектор box'ов, НЕ являющихся решением исходной системы
+	//memcpy(mxGetPr(matlab_not_sol_array), &not_solution[0], not_solution_sz * sizeof(Box));
+	//engPutVariable(engine_ptr, "not_sol_array", matlab_not_sol_array);
+
+	memcpy(mxGetPr(matlab_not_sol_array), &not_sol_arr[0], number_of_params * not_solution_sz * sizeof(double));
+	engPutVariable(engine_ptr, "not_sol_array", matlab_not_sol_array);
+	engEvalString(engine_ptr, "not_sol_array = not_sol_array';");		// необходимо дополнительно транспонировать!
+
+	// копируем вектор box'ов, лежащих на границе
+	//memcpy(mxGetPr(matlab_boundary_array), &boundary[0], boundary_sz * sizeof(Box));
+	//engPutVariable(engine_ptr, "boundary", matlab_boundary_array);
+
+	memcpy(mxGetPr(matlab_boundary_array), &boundary_arr[0], number_of_params * boundary_sz * sizeof(double));
+	engPutVariable(engine_ptr, "boundary", matlab_boundary_array);
+	engEvalString(engine_ptr, "boundary = boundary';");					// необходимо дополнительно транспонировать!
+	
+	// высвобождение памяти в VS
+	delete[] sol_arr;
+	delete[] not_sol_arr;
+	delete[] boundary_arr;
+
+	const char* plotting_script_dir = "cd D:\\Study\\Master";
+	engEvalString(engine_ptr, plotting_script_dir);
+	engEvalString(engine_ptr, "PrintWorkspace(sol_array, not_sol_array, boundary, cmp_angles, delta)" );
+
+	//
+	//Engine* engine_ptr = engOpen(0);
+	//mxArray* matlab_array = mxCreateDoubleMatrix(4, 4, mxREAL);
+	////double* matlab_array_ptr = mxGetPr(matlab_array);
+
+	////memcpy(matlab_array_ptr, vs_array, 16 * sizeof(double));
+	//memcpy(mxGetPr(matlab_array), &vec[0], vec.size() * sizeof(double));
+
+	//engPutVariable(engine_ptr, "array", matlab_array);
+
+	//engEvalString(engine_ptr, "array = array';");		// ОБЯЗАТЕЛЬНО сделать это!!!
+	//engEvalString(engine_ptr, "plot(array(1,:),array(1,:).^2);");
+
+
+	//engEvalString(matlab_ptr, "size(array,1),");
+	//engEvalString(matlab_ptr, "size(array,2),");
+	//engEvalString(matlab_ptr, "array ");
+
+	//engEvalString(matlab_ptr, "disp(array);");
+
+
+	//engEvalString(matlab_ptr, "D = .5.*(-9.8).*array.^2;");
+
+	///*
+	//* Plot the result
+	//*/
+	//engEvalString(matlab_ptr, "plot(array,D);");
+	//engEvalString(matlab_ptr, "title('Position vs. Time for a falling object');");
+	//engEvalString(matlab_ptr, "xlabel('Time (seconds)');");
+	//engEvalString(matlab_ptr, "ylabel('Position (meters)');");
+
+
+	// уничтожение
+	//for (unsigned i = 0; i < 4; i++) 
+	//{
+	//	delete[] vs_array[i];
+	//}
+	//delete[] vs_array;
+
+	//mxDestroyArray(matlab_array);
 }

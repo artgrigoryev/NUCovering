@@ -34,7 +34,7 @@ extern const double g_precision;
 /// количество точек на каждой из осей
 extern const unsigned int points_per_axis;
 
-extern const double cmp_angle;
+//extern const double cmp_angle;
 
 typedef std::pair<Box, Box> boxes_pair;
 
@@ -88,4 +88,4 @@ public:
 
 //void WriteResults(const char* file_names[], unsigned int number_of_files);
 
-void PrintWorkspace();
+void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size);
