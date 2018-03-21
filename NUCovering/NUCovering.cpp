@@ -2,7 +2,6 @@
 #include <iostream>
 #include <cmath>
 #include <chrono>
-#include <Engine.h>
 #include "fragmentation.h"
 
 using namespace std::chrono;
@@ -37,7 +36,7 @@ const double theta_bi_max[] = { 340.0, 360.0, 330.0 };
 
 
 /// точность аппроксимации рабочего пространства
-const double g_precision = 1.0;
+const double g_precision = 0.8;
 
 /// количество точек на каждой из осей 
 const unsigned int points_per_axis = 12;
@@ -49,49 +48,14 @@ const unsigned int points_per_axis = 12;
 #pragma comment (lib, "libeng.lib")
 
 
-static void Test()
-{
-	const unsigned rows = 3;
-	const unsigned cols = 6;
-
-	unsigned i, j;
-	double* matr = new double[rows*cols];
-	for (i = 0; i < rows*cols; ++i)
-	{
-		matr[i] = i*0.25;
-	}
-
-	for (i = 0; i < rows*cols; ++i)
-	{
-		printf("%lf ", matr[i]);
-		if( (i + 1) % cols == 0)
-			printf("\n");
-	}
-	printf("\n");
-
-	Engine* engine_ptr = engOpen(NULL);
-
-	mxArray* mtlb_array = mxCreateDoubleMatrix(cols, rows, mxREAL);
-
-	memcpy(mxGetPr(mtlb_array), &matr[0], rows * cols * sizeof(double));
-	engPutVariable(engine_ptr, "arr", mtlb_array);
-	engEvalString(engine_ptr, "arr = arr';");
-	// щас правильно передается все!
-}
-
-
-
 int main()
 {
-
-	//Test();
-
-
-
 	//	__cilkrts_end_cilk();
+
 	// initial box parameters
 	double initial_box_params[] = { -20.0, 40.0, -20.0, 40.0, 0.0, 360.0 };
 	high_level_analysis main_object(initial_box_params);
+
 	//	__cilkrts_set_param("nworkers", "1");
 	//	cout << "Number of workers " << __cilkrts_get_nworkers() << endl;
 	high_resolution_clock::time_point t1 = high_resolution_clock::now();
@@ -100,12 +64,10 @@ int main()
 
 	high_resolution_clock::time_point t2 = high_resolution_clock::now();
 	duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-	//	cout << "Duration is: " << time_span.count() << " seconds" << endl;
+
 	auto duration = duration_cast<seconds>(t2 - t1).count();
 	std::cout << std::endl << "Duration is: " << duration << " seconds" << std::endl;
-	std::cout << "Duration is: " << duration/60.0 << " minutes" << std::endl << std::endl;
-	
-//	puts("Workspace founded!");
+	std::cout << "Duration is: " << duration/60 << " minutes " << duration%60 << "seconds" << std::endl << std::endl;
 
 	// массив углов, относительно которых строим проекцию полученного рабочего пространства
 	double cmp_angles[] = { 50.0, 80.0, 120.0, 140.0 };

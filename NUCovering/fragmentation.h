@@ -82,10 +82,6 @@ public:
 	high_level_analysis(Box& box);
 
 	void GetSolution();
-
-	//void WriteResults( const char* file_names[] );
 };
-
-//void WriteResults(const char* file_names[], unsigned int number_of_files);
 
 void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size);

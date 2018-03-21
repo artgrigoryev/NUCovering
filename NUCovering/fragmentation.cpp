@@ -113,7 +113,7 @@ void g2i_5(const double& x, const double& y, const double& phi, vector<double>& 
 	double dist_x = XbiOxy(0, x, phi) - xa[0];
 	//func_values.push_back((atan2(dist_y, dist_x) * RADIAN_2_DEGREES) - theta_ai_max[0]);
 	
-	//double comp = (atan2(diff_y, diff_x) * RADIAN_2_DEGREES) - theta_ai_max[0];
+	////double comp = (atan2(diff_y, diff_x) * RADIAN_2_DEGREES) - theta_ai_max[0];
 
 	// modified 27.02.18
 	double rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
@@ -127,7 +127,7 @@ void g2i_5(const double& x, const double& y, const double& phi, vector<double>& 
 	dist_x = XbiOxy(1, x, phi) - xa[1];
 	//func_values.push_back((atan2(dist_y, dist_x) * RADIAN_2_DEGREES) - theta_ai_max[1]);
 
-	//comp = (atan2(diff_y, diff_x) * RADIAN_2_DEGREES) - theta_ai_max[1];
+	////comp = (atan2(diff_y, diff_x) * RADIAN_2_DEGREES) - theta_ai_max[1];
 
 	// modified 27.02.18
 	rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
@@ -141,7 +141,7 @@ void g2i_5(const double& x, const double& y, const double& phi, vector<double>& 
 	dist_x = XbiOxy(2, x, phi) - xa[2];
 	//func_values.push_back((atan2(dist_y, dist_x) * RADIAN_2_DEGREES) - theta_ai_max[2]);
 
-	//comp = (atan2(diff_y, diff_x) * RADIAN_2_DEGREES) - theta_ai_max[2];
+	////comp = (atan2(diff_y, diff_x) * RADIAN_2_DEGREES) - theta_ai_max[2];
 
 	// modified 27.02.18
 	rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
@@ -602,97 +602,26 @@ void high_level_analysis::GetSolution()
 //------------------------------------------------------------------------------------------
 void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size)
 {
-	//mxArray* matlab_x_min = mxCreateDoubleMatrix(1, 1, mxREAL);
-	//mxArray* matlab_x_max = mxCreateDoubleMatrix(1, 1, mxREAL);
-	//mxArray* matlab_y_min = mxCreateDoubleMatrix(1, 1, mxREAL);
-	//mxArray* matlab_y_max = mxCreateDoubleMatrix(1, 1, mxREAL);
-
-	//double* vs_x_min = mxGetPr(matlab_x_min);
-	//double* vs_x_max = mxGetPr(matlab_x_max);
-	//double* vs_y_min = mxGetPr(matlab_y_min);
-	//double* vs_y_max = mxGetPr(matlab_y_max);
-
-	//engEvalString(matlab_ptr, "figure('units','normalized','outerposition',[0 0 1 1]),");
-	//engEvalString(matlab_ptr, "hold on,");
-
-	//size_t sol_sz = solution.size();
-	//size_t not_sol_sz = not_solution.size();
-	//size_t boundary_sz = boundary.size();
-
-	//printf("Size of solution vector = %Iu\n", sol_sz);
-	//	
-	//printf("Size of not_solution vector = %Iu\n", not_sol_sz);
-	//printf("Size of boundary vector = %Iu\n", boundary_sz);
-
-	//std::vector<Box>::const_iterator solution_it_begin = solution.begin();
-	//std::vector<Box>::const_iterator solution_it_end = solution.end();
-
-	//double* box_params = new double[6];
-	//double phi_min, phi_max;
-
-	//for (solution_it_begin; solution_it_begin != solution_it_end; ++solution_it_begin)
-	//{
-
-	//	solution_it_begin->GetParameters(box_params);
-
-	//	*vs_x_min = box_params[0];
-	//	*vs_x_max = *vs_x_min + box_params[1];
-
-	//	*vs_y_min = box_params[2];
-	//	*vs_y_max = *vs_y_min + box_params[3];
-
-	//	phi_min = box_params[4];
-	//	phi_max = phi_min + box_params[5];
-
-	//	//printf("phi_min = %lf  phi_max = %lf\n", phi_min, phi_max);
-
-	//	if (cmp_angle >= phi_min && cmp_angle <= phi_max)
-	//	{
-	//		puts("plotting!");
-
-	//		engPutVariable(matlab_ptr, "x_min", matlab_x_min);
-	//		engPutVariable(matlab_ptr, "x_max", matlab_x_max);
-	//		engPutVariable(matlab_ptr, "y_min", matlab_y_min);
-	//		engPutVariable(matlab_ptr, "y_max", matlab_y_max);
-
-	//		engEvalString(matlab_ptr, "line([x_min x_max], [y_min, y_min], 'color', 'green'),");
-	//		engEvalString(matlab_ptr, "line([x_min x_min], [y_min, y_max], 'color', 'green'),");
-	//		engEvalString(matlab_ptr, "line([x_min x_max], [y_max, y_max], 'color', 'green'),");
-	//		engEvalString(matlab_ptr, "line([x_max x_max], [y_min, y_max], 'color', 'green')");
-	//	}
-	//}
-
-	////engEvalString(matlab_ptr, "axis([0 8 0 8])");
-
-	//system("pause");
-
-	// free memory
-	/*mxDestroyArray(matlab_x_min);
-	mxDestroyArray(matlab_x_max);
-	mxDestroyArray(matlab_y_min);
-	mxDestroyArray(matlab_y_max);
-
-	engClose(matlab_ptr);*/
-
 	const unsigned number_of_params = 6;
+
 	size_t solution_sz = solution.size();
 	size_t not_solution_sz = not_solution.size();
 	size_t boundary_sz = boundary.size();
 
-	printf("Solution sz = %zu\n", solution_sz);
-	printf("NOT Solution sz = %zu\n", not_solution_sz);
-	printf("Boundary sz = %zu\n", boundary_sz);
+	printf("Solution sz = %Iu\n", solution_sz);
+	printf("NOT Solution sz = %Iu\n", not_solution_sz);
+	printf("Boundary sz = %Iu\n", boundary_sz);
 
 	double params[6];
 
-	solution[0].GetParameters(params);
-	printf("\nSol[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+	//solution[0].GetParameters(params);
+	//printf("\nSol[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
 
-	not_solution[0].GetParameters(params);
-	printf("Not_sol[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+	//not_solution[0].GetParameters(params);
+	//printf("Not_sol[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
 
-	boundary[0].GetParameters(params);
-	printf("Boundary[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+	//boundary[0].GetParameters(params);
+	//printf("Boundary[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
 
 	// solution
 	double* sol_arr = new double[number_of_params*solution_sz];
@@ -705,7 +634,7 @@ void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size)
 		beg_iter->GetParameters(params);
 		memcpy(sol_arr + i*number_of_params, params, number_of_params * sizeof(double));
 	}
-	
+
 	// not_soltion
 	double* not_sol_arr = new double[number_of_params*not_solution_sz];
 	beg_iter = not_solution.begin();
@@ -735,50 +664,38 @@ void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size)
 	not_solution.shrink_to_fit();
 	boundary.shrink_to_fit();
 
-
-
-
-	// 
+	// начало работы  Matlab 
 	puts("Printing workspace!");
 
 	Engine* engine_ptr = engOpen(NULL);
 
-	mxArray* matlab_sol_array = mxCreateDoubleMatrix(number_of_params, solution_sz, mxREAL);
-	mxArray* matlab_not_sol_array = mxCreateDoubleMatrix(number_of_params, not_solution_sz, mxREAL);
-	mxArray* matlab_boundary_array = mxCreateDoubleMatrix(number_of_params, boundary_sz, mxREAL);
-	mxArray* matlab_cmp_angles = mxCreateDoubleMatrix(1, cmp_angles_size, mxREAL);
-	mxArray* matlab_delta = mxCreateDoubleMatrix(1, 1, mxREAL);
+	mxArray* matlab_sol_array		= mxCreateDoubleMatrix(number_of_params, solution_sz, mxREAL);
+	mxArray* matlab_not_sol_array	= mxCreateDoubleMatrix(number_of_params, not_solution_sz, mxREAL);
+	mxArray* matlab_boundary_array	= mxCreateDoubleMatrix(number_of_params, boundary_sz, mxREAL);
+	mxArray* matlab_cmp_angles		= mxCreateDoubleMatrix(1, cmp_angles_size, mxREAL);
+	mxArray* matlab_delta			= mxCreateDoubleMatrix(1, 1, mxREAL);
 
 	memcpy(mxGetPr(matlab_delta), &g_precision, sizeof(double));
 	engPutVariable(engine_ptr, "delta", matlab_delta);
 
-	memcpy(mxGetPr(matlab_cmp_angles), &cmp_angles[0], cmp_angles_size*sizeof(double));
+	memcpy(mxGetPr(matlab_cmp_angles), &cmp_angles[0], cmp_angles_size * sizeof(double));
 	engPutVariable(engine_ptr, "cmp_angles", matlab_cmp_angles);
 
 	// копируем вектор box'ов, €вл€ющихс€ решением исходной системы 
-	//memcpy(mxGetPr(matlab_sol_array), &solution[0], solution_sz * sizeof(Box));
-	//engPutVariable(engine_ptr, "sol_array", matlab_sol_array);
-	
 	memcpy(mxGetPr(matlab_sol_array), &sol_arr[0], number_of_params * solution_sz * sizeof(double));
 	engPutVariable(engine_ptr, "sol_array", matlab_sol_array);
 	engEvalString(engine_ptr, "sol_array = sol_array';");				// необходимо дополнительно транспонировать!
 
 	// копируем вектор box'ов, Ќ≈ €вл€ющихс€ решением исходной системы
-	//memcpy(mxGetPr(matlab_not_sol_array), &not_solution[0], not_solution_sz * sizeof(Box));
-	//engPutVariable(engine_ptr, "not_sol_array", matlab_not_sol_array);
-
 	memcpy(mxGetPr(matlab_not_sol_array), &not_sol_arr[0], number_of_params * not_solution_sz * sizeof(double));
 	engPutVariable(engine_ptr, "not_sol_array", matlab_not_sol_array);
 	engEvalString(engine_ptr, "not_sol_array = not_sol_array';");		// необходимо дополнительно транспонировать!
 
 	// копируем вектор box'ов, лежащих на границе
-	//memcpy(mxGetPr(matlab_boundary_array), &boundary[0], boundary_sz * sizeof(Box));
-	//engPutVariable(engine_ptr, "boundary", matlab_boundary_array);
-
 	memcpy(mxGetPr(matlab_boundary_array), &boundary_arr[0], number_of_params * boundary_sz * sizeof(double));
 	engPutVariable(engine_ptr, "boundary", matlab_boundary_array);
 	engEvalString(engine_ptr, "boundary = boundary';");					// необходимо дополнительно транспонировать!
-	
+
 	// высвобождение пам€ти в VS
 	delete[] sol_arr;
 	delete[] not_sol_arr;
@@ -786,46 +703,14 @@ void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size)
 
 	const char* plotting_script_dir = "cd D:\\Study\\Master";
 	engEvalString(engine_ptr, plotting_script_dir);
-	engEvalString(engine_ptr, "PrintWorkspace(sol_array, not_sol_array, boundary, cmp_angles, delta)" );
+	engEvalString(engine_ptr, "PrintWorkspace(sol_array, not_sol_array, boundary, cmp_angles, delta)");
+	 
+	// высвобождение пам€ти
+	mxDestroyArray(matlab_sol_array);
+	mxDestroyArray(matlab_not_sol_array);
+	mxDestroyArray(matlab_boundary_array);
+	mxDestroyArray(matlab_cmp_angles);
+	mxDestroyArray(matlab_delta);
 
-	//
-	//Engine* engine_ptr = engOpen(0);
-	//mxArray* matlab_array = mxCreateDoubleMatrix(4, 4, mxREAL);
-	////double* matlab_array_ptr = mxGetPr(matlab_array);
-
-	////memcpy(matlab_array_ptr, vs_array, 16 * sizeof(double));
-	//memcpy(mxGetPr(matlab_array), &vec[0], vec.size() * sizeof(double));
-
-	//engPutVariable(engine_ptr, "array", matlab_array);
-
-	//engEvalString(engine_ptr, "array = array';");		// ќЅя«ј“≈Ћ№Ќќ сделать это!!!
-	//engEvalString(engine_ptr, "plot(array(1,:),array(1,:).^2);");
-
-
-	//engEvalString(matlab_ptr, "size(array,1),");
-	//engEvalString(matlab_ptr, "size(array,2),");
-	//engEvalString(matlab_ptr, "array ");
-
-	//engEvalString(matlab_ptr, "disp(array);");
-
-
-	//engEvalString(matlab_ptr, "D = .5.*(-9.8).*array.^2;");
-
-	///*
-	//* Plot the result
-	//*/
-	//engEvalString(matlab_ptr, "plot(array,D);");
-	//engEvalString(matlab_ptr, "title('Position vs. Time for a falling object');");
-	//engEvalString(matlab_ptr, "xlabel('Time (seconds)');");
-	//engEvalString(matlab_ptr, "ylabel('Position (meters)');");
-
-
-	// уничтожение
-	//for (unsigned i = 0; i < 4; i++) 
-	//{
-	//	delete[] vs_array[i];
-	//}
-	//delete[] vs_array;
-
-	//mxDestroyArray(matlab_array);
+	engClose(engine_ptr);
 }
