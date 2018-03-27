@@ -54,7 +54,7 @@ int main()
 
 	// initial box parameters
 	double phi_min = 0.0;
-	double phi_max = 20.0;
+	double phi_max = 360.0;
 	double initial_box_params[] = { -20.0, 40.0, -20.0, 40.0, phi_min, phi_max };
 	high_level_analysis main_object(initial_box_params);
 
@@ -74,8 +74,10 @@ int main()
 	// массив углов, относительно которых строим проекцию полученного рабочего пространства
 	double cmp_angles[] = { 50.0, 80.0, 120.0, 140.0 };
 
-	// TODO: передавать недостающие параметры ввиду последних изменений
-	PrintWorkspace(cmp_angles, sizeof(cmp_angles) / sizeof(cmp_angles[0]), sizeof(xa) / sizeof(xa[0]), phi_min, phi_max);
+	unsigned cmp_angles_size = sizeof(cmp_angles) / sizeof(cmp_angles[0]);
+	unsigned rings_counter = sizeof(xa) / sizeof(xa[0]);
+
+	PrintWorkspace(cmp_angles, cmp_angles_size, rings_counter, phi_min, phi_max);
 
 	return 0;
 }

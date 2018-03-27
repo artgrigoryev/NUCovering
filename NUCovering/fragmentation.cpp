@@ -1,6 +1,6 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
-#include <Engine.h>
+#include <engine.h>
 //#include <cilk/cilk.h>
 //#include <cilk/reducer_vector.h>
 #include <fstream>
@@ -599,7 +599,7 @@ void high_level_analysis::GetSolution()
 	}
 }
 
-void FindRingCenters(const double* cmp_angles, unsigned cmp_angles_size, unsigned rings_count, double* p_u, double* q_u)
+void FindRingCenters(const double* cmp_angles, const unsigned& cmp_angles_size, const unsigned& rings_count, double* p_u, double* q_u)
 {
 	for (unsigned i = 0; i < cmp_angles_size; ++i)
 	{
@@ -619,13 +619,14 @@ void FindRingCenters(const double* cmp_angles, unsigned cmp_angles_size, unsigne
 
 
 //------------------------------------------------------------------------------------------
-void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size, unsigned rings_count, double& phi_min, double& phi_max)
+void PrintWorkspace(const double* cmp_angles,const unsigned& cmp_angles_size, const unsigned& rings_count, double& phi_min, double& phi_max)
 {
-	const unsigned number_of_params = 6;
 
 	const size_t solution_sz = solution.size();
 	const size_t not_solution_sz = not_solution.size();
 	const size_t boundary_sz = boundary.size();
+
+	const unsigned number_of_params = 6;
 
 	printf("Solution sz = %Iu\n", solution_sz);
 	printf("NOT Solution sz = %Iu\n", not_solution_sz);
