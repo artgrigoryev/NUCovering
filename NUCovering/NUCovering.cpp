@@ -36,7 +36,7 @@ const double theta_bi_max[] = { 340.0, 360.0, 330.0 };
 
 
 /// точность аппроксимации рабочего пространства
-const double g_precision = 0.8;
+const double g_precision = 1.0;
 
 /// количество точек на каждой из осей 
 const unsigned int points_per_axis = 12;
@@ -53,7 +53,9 @@ int main()
 	//	__cilkrts_end_cilk();
 
 	// initial box parameters
-	double initial_box_params[] = { -20.0, 40.0, -20.0, 40.0, 0.0, 360.0 };
+	double phi_min = 0.0;
+	double phi_max = 20.0;
+	double initial_box_params[] = { -20.0, 40.0, -20.0, 40.0, phi_min, phi_max };
 	high_level_analysis main_object(initial_box_params);
 
 	//	__cilkrts_set_param("nworkers", "1");
@@ -72,7 +74,8 @@ int main()
 	// массив углов, относительно которых строим проекцию полученного рабочего пространства
 	double cmp_angles[] = { 50.0, 80.0, 120.0, 140.0 };
 
-	PrintWorkspace(cmp_angles, sizeof(cmp_angles) / sizeof(cmp_angles[0]));
+	// TODO: передавать недостающие параметры ввиду последних изменений
+	PrintWorkspace(cmp_angles, sizeof(cmp_angles) / sizeof(cmp_angles[0]), sizeof(xa) / sizeof(xa[0]), phi_min, phi_max);
 
 	return 0;
 }

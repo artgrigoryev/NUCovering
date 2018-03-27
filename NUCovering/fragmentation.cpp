@@ -599,14 +599,33 @@ void high_level_analysis::GetSolution()
 	}
 }
 
+void FindRingCenters(const double* cmp_angles, unsigned cmp_angles_size, unsigned rings_count, double* p_u, double* q_u)
+{
+	for (unsigned i = 0; i < cmp_angles_size; ++i)
+	{
+		double ksi = cmp_angles[i];
+		double cos_ksi = cos(ksi) * DEGREES_2_RADIAN;
+		double sin_ksi = sin(ksi) * DEGREES_2_RADIAN;
+
+		for (unsigned j = 0; j < rings_count; ++j)
+		{
+			unsigned id = rings_count * i + j;
+
+			p_u[id] = xa[j] - xb[j] * cos_ksi + yb[j] * sin_ksi;
+			q_u[id] = ya[j] - xb[j] * sin_ksi + yb[j] * cos_ksi;
+		}
+	}
+}
+
+
 //------------------------------------------------------------------------------------------
-void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size)
+void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size, unsigned rings_count, double& phi_min, double& phi_max)
 {
 	const unsigned number_of_params = 6;
 
-	size_t solution_sz = solution.size();
-	size_t not_solution_sz = not_solution.size();
-	size_t boundary_sz = boundary.size();
+	const size_t solution_sz = solution.size();
+	const size_t not_solution_sz = not_solution.size();
+	const size_t boundary_sz = boundary.size();
 
 	printf("Solution sz = %Iu\n", solution_sz);
 	printf("NOT Solution sz = %Iu\n", not_solution_sz);
@@ -667,11 +686,26 @@ void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size)
 	// начало работы  Matlab 
 	puts("Printing workspace!");
 
+	double* p_u = new double[rings_count * cmp_angles_size];
+	double* q_u = new double[rings_count * cmp_angles_size];
+
+	FindRingCenters(cmp_angles, cmp_angles_size, rings_count, p_u, q_u);
+
+	double vs_R[] = { p_min, p_max };
+	double vs_phi_min_max[] = { phi_min, phi_max };
+
+	// запуск движка MATLAB
 	Engine* engine_ptr = engOpen(NULL);
+
+	mxArray* matlab_xc				= mxCreateDoubleMatrix(rings_count, cmp_angles_size, mxREAL);
+	mxArray* matlab_yc				= mxCreateDoubleMatrix(rings_count, cmp_angles_size, mxREAL);
+	mxArray* matlab_R				= mxCreateDoubleMatrix(1, 2, mxREAL);
+	mxArray* matlab_phi_min_max		= mxCreateDoubleMatrix(1, 2, mxREAL);
 
 	mxArray* matlab_sol_array		= mxCreateDoubleMatrix(number_of_params, solution_sz, mxREAL);
 	mxArray* matlab_not_sol_array	= mxCreateDoubleMatrix(number_of_params, not_solution_sz, mxREAL);
 	mxArray* matlab_boundary_array	= mxCreateDoubleMatrix(number_of_params, boundary_sz, mxREAL);
+
 	mxArray* matlab_cmp_angles		= mxCreateDoubleMatrix(1, cmp_angles_size, mxREAL);
 	mxArray* matlab_delta			= mxCreateDoubleMatrix(1, 1, mxREAL);
 
@@ -680,6 +714,20 @@ void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size)
 
 	memcpy(mxGetPr(matlab_cmp_angles), &cmp_angles[0], cmp_angles_size * sizeof(double));
 	engPutVariable(engine_ptr, "cmp_angles", matlab_cmp_angles);
+
+	memcpy(mxGetPr(matlab_xc), &p_u[0], rings_count * cmp_angles_size * sizeof(double));
+	engPutVariable(engine_ptr, "xc", matlab_xc);
+	engEvalString(engine_ptr, "xc = xc';");				// необходимо дополнительно транспонировать!
+
+	memcpy(mxGetPr(matlab_yc), &q_u[0], rings_count * cmp_angles_size * sizeof(double));
+	engPutVariable(engine_ptr, "yc", matlab_yc);
+	engEvalString(engine_ptr, "yc = yc';");				// необходимо дополнительно транспонировать!
+
+	memcpy(mxGetPr(matlab_R), &vs_R[0], 2 * sizeof(double));
+	engPutVariable(engine_ptr, "R", matlab_R);
+
+	memcpy(mxGetPr(matlab_phi_min_max), &vs_phi_min_max[0], 2 * sizeof(double));
+	engPutVariable(engine_ptr, "phi_min_max", matlab_phi_min_max);
 
 	// копируем вектор box'ов, являющихся решением исходной системы 
 	memcpy(mxGetPr(matlab_sol_array), &sol_arr[0], number_of_params * solution_sz * sizeof(double));
@@ -701,16 +749,20 @@ void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size)
 	delete[] not_sol_arr;
 	delete[] boundary_arr;
 
-	const char* plotting_script_dir = "cd D:\\Study\\Master";
+	const char* plotting_script_dir = "cd D:\\Study\\Master\\Plotting";
 	engEvalString(engine_ptr, plotting_script_dir);
-	engEvalString(engine_ptr, "PrintWorkspace(sol_array, not_sol_array, boundary, cmp_angles, delta)");
+	engEvalString(engine_ptr, "PrintWorkspace(xc, yc, R, phi_min_max, sol_array, not_sol_array, boundary, cmp_angles, delta)");
 	 
 	// высвобождение памяти
-	mxDestroyArray(matlab_sol_array);
-	mxDestroyArray(matlab_not_sol_array);
-	mxDestroyArray(matlab_boundary_array);
-	mxDestroyArray(matlab_cmp_angles);
-	mxDestroyArray(matlab_delta);
+	//mxDestroyArray(matlab_xc);
+	//mxDestroyArray(matlab_yc);
+	//mxDestroyArray(matlab_R);
+	//mxDestroyArray(matlab_phi_min_max);
+	//mxDestroyArray(matlab_sol_array);
+	//mxDestroyArray(matlab_not_sol_array);
+	//mxDestroyArray(matlab_boundary_array);
+	//mxDestroyArray(matlab_cmp_angles);
+	//mxDestroyArray(matlab_delta);
 
-	engClose(engine_ptr);
+	//engClose(engine_ptr);
 }

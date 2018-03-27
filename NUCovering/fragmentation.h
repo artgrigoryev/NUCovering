@@ -84,4 +84,4 @@ public:
 	void GetSolution();
 };
 
-void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size);
+void PrintWorkspace(const double* cmp_angles, unsigned cmp_angles_size, unsigned rings_count, double& phi_min, double& phi_max);
