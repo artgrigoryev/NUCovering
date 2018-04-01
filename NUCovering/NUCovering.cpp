@@ -1,11 +1,9 @@
-//#define _USE_MATH_DEFINES
 #include <iostream>
 #include <cmath>
 #include <chrono>
 #include "fragmentation.h"
 
 using namespace std::chrono;
-using std::vector;
 
 /// координаты точек ј[1,2,3] в системе координат Oxy
 const double xa[] = { -15.0, 15.0, 0.0 };

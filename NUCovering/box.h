@@ -36,5 +36,5 @@ public:
 	/// function GetBoxDiagonal() return box's diagonal
 	double GetDiagonal() const;
 
-	Box& operator=(const Box& other) = default;
+	Box& operator=(const Box& right) = default;
 };
