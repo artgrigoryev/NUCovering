@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- <!DOCTYPE IntelParallelAdvisorSummaryCollection SYSTEM  "IntelParallelAdvisorSummaryCollection.dtd"> -->
+
+<IntelParallelAdvisorSummary version="0.1" 
+                             kind="DATAKIND_CORRECTNESS" >
+  <site filename="c:\users\artyom\documents\visual studio 2015\projects\nucovering\nucovering\fragmentation.cpp" 
+        line_no="586" 
+        label="tree" 
+        loop_name="GetSolution" 
+        is_vectorized="-1">
+    <dependencies RAW="4" 
+                  WAR="1" 
+                  WAW="1" 
+                  potentialWAR="1" 
+                  potentialWAW="1" 
+                  potentialReduction="0" 
+                  nobegin="0"/>
+  </site> 
+  <site filename="c:\users\artyom\documents\visual studio 2015\projects\nucovering\nucovering\fragmentation.cpp" 
+        line_no="524" 
+        label="grid" 
+        loop_name="GetGjValues" 
+        is_vectorized="-1">
+    <dependencies RAW="1" 
+                  WAR="5" 
+                  WAW="7" 
+                  potentialWAR="0" 
+                  potentialWAW="0" 
+                  potentialReduction="0" 
+                  nobegin="0"/>
+  </site> 
+</IntelParallelAdvisorSummary >

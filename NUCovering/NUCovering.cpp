@@ -37,7 +37,7 @@ const double theta_bi_max[] = { 340.0, 360.0, 330.0 };
 const double g_precision = 1.0;
 
 /// количество точек на каждой из осей 
-const unsigned int points_per_axis = 12;
+const unsigned int POINTS_PER_AXIS = 12;
 
 
 #pragma comment (lib, "libmat.lib")
@@ -52,7 +52,7 @@ int main()
 
 	// initial box parameters
 	double phi_min = 0.0;
-	double phi_max = 360.0;
+	double phi_max = 180.0;
 	double initial_box_params[] = { -20.0, 40.0, -20.0, 40.0, phi_min, phi_max };
 	high_level_analysis main_object(initial_box_params);
 

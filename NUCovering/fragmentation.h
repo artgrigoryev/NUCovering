@@ -32,7 +32,7 @@ extern const double theta_bi_max[];
 extern const double g_precision;
 
 /// количество точек на каждой из осей
-extern const unsigned int points_per_axis;
+extern const unsigned int POINTS_PER_AXIS;
 
 //extern const double cmp_angle;
 
@@ -48,9 +48,9 @@ protected:
 	void SplitByY(const Box& box, boxes_pair& new_pair_of_boxes) const;		// разбиение box'а по координате y
 	void SplitByPhi(const Box& box, boxes_pair& new_pair_of_boxes) const;	// разбиение box'a по координате z
 	void GetNewBoxes(const Box& box, boxes_pair& new_pair_of_boxes) const;				// получение двух новых box'ов путем разбиения
-	void ClasifyBox(const Box& box, const std::vector<double>& func_values) const;				// функция анализа box'а, определения типа принадлежности box'а
+	void ClasifyBox(const Box& box, const double* func_values, unsigned& sz) const;				// функция анализа box'а, определения типа принадлежности box'а
 	void GetBoxType(const Box& box);
-	virtual void GetFusncValues(const Box& box, std::vector<double>& max_vals) = 0;		// получение минимумов и максимумов для функций gj
+	virtual void GetFusncValues(const Box& box, double* max_vals, unsigned& sz) = 0;		// получение минимумов и максимумов для функций gj
 
 public:
 	/// default constructor
@@ -70,7 +70,7 @@ public:
 class high_level_analysis : public low_level_fragmentation
 {
 protected:
-	void GetFusncValues(const Box& box, std::vector<double>& max_vals) override;
+	void GetFusncValues(const Box& box, double* max_vals, unsigned& sz) override;
 public:
 	/// default constructor
 	high_level_analysis() {}

@@ -1,0 +1,54 @@
+-r
+C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering\My Advisor Results - NUCovering\e000\hs000
+-type
+cpu:stack
+--mrte-mode=auto
+--follow-child
+--return-app-exitcode
+--strategy=ld-linux.so.2:notrace:notrace,ld-linux-x86-64.so.2:notrace:notrace
+--interval=10
+--data-limit-mb=500
+--stack-stitching
+--stackwalk=offline
+--mrte-type=java,dotnet,python
+--bandwidth-config=dram,mcdram,cpu_cache,flop_peak
+--search-dir
+sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release
+--search-dir
+sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering
+--search-dir
+sym=srv*C:\Users\Artyom\AppData\Local\Temp\SymbolCache
+--search-dir
+bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release
+--search-dir
+bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering
+--search-dir
+bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64
+--search-dir
+bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin
+--search-dir
+bin=C:\Program Files (x86)\Windows Kits\8.1\bin\x86
+--search-dir
+bin=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools
+--search-dir
+bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\tools
+--search-dir
+bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\ide
+--search-dir
+bin=C:\Program Files (x86)\HTML Help Workshop
+--search-dir
+bin=C:\Program Files (x86)\MSBuild\14.0\bin
+--search-dir
+bin=C:\Windows\Microsoft.NET\Framework\v4.0.30319
+--search-dir
+bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\NativeBinaries\x86
+--search-dir
+bin=D:\Program Files\MATLAB\R2013b\bin\win64
+--search-dir
+bin=C:\Program Files\Microsoft SQL Server\110\Tools\Binn
+--search-dir
+bin=C:\Program Files\Git\cmd
+--search-dir
+bin=C:\Users\Artyom\AppData\Local\GitHubDesktop\bin
+--
+C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release\NUCovering.exe

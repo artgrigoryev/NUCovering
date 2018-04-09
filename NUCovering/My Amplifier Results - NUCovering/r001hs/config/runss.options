@@ -1,0 +1,14 @@
+-r
+C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering\My Amplifier Results - NUCovering\r001hs
+--stack-stitching
+--data-limit-mb=500
+--disk-space-limit=0
+--mrte-type=java,dotnet,python
+--itt-config=frame
+--stackwalk=offline
+--mrte-mode=auto
+--type=cpu:counters:nostack
+--type=cpu:stack
+--interval=10
+--
+C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release\NUCovering.exe

@@ -1,0 +1,33 @@
+
+=== Start: [2018/04/03 02:48:47] === 
+Analysis started...
+Result file: C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering\My Advisor Results - NUCovering\e000\dp000\dp000.advixe 
+Found target process c:\users\artyom\documents\visual studio 2015\projects\nucovering\x64\release\nucovering.exe (PID = 2276). Analysis started... 
+Loaded module: c:\windows\system32\kernel32.dll. 
+Loaded module: c:\windows\system32\ntdll.dll. 
+Loaded module: c:\users\artyom\documents\visual studio 2015\projects\nucovering\x64\release\nucovering.exe. 
+Loaded module: c:\windows\system32\kernelbase.dll. 
+Loaded module: c:\windows\system32\msvcp140.dll. 
+Loaded module: c:\windows\system32\vcruntime140.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-runtime-l1-1-0.dll. 
+Loaded module: c:\windows\system32\ucrtbase.dll. 
+Loaded module: c:\windows\system32\api-ms-win-core-timezone-l1-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-core-file-l2-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-core-localization-l1-2-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-core-synch-l1-2-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-core-processthreads-l1-1-1.dll. 
+Loaded module: c:\windows\system32\api-ms-win-core-file-l1-2-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-string-l1-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-heap-l1-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-stdio-l1-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-convert-l1-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-locale-l1-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-math-l1-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-multibyte-l1-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-time-l1-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-filesystem-l1-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-environment-l1-1-0.dll. 
+Loaded module: c:\windows\system32\api-ms-win-crt-utility-l1-1-0.dll. 
+Loaded module: c:\program files (x86)\intelswtools\advisor 2018\bin32\runtime\libittnotify.dll. 
+Unloaded module: c:\program files (x86)\intelswtools\advisor 2018\bin32\runtime\libittnotify.dll. 
+Loaded module: c:\program files (x86)\intelswtools\advisor 2018\bin64\runtime\libittnotify.dll. 

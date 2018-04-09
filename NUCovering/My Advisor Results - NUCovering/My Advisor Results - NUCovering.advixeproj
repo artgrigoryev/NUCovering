@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+ <connectionOption>localhost</connectionOption>
+ <rdmgr>
+  <timestamp type="u64_t">1522586765</timestamp>
+  <hostname>Artyom_PC</hostname>
+  <os>windows</os>
+  <product>Intel® Advisor 2018 Update 1</product>
+  <buildNumber type="s32_t">535336</buildNumber>
+  <logicalCPUCount type="s32_t">4</logicalCPUCount>
+  <CPUFrequency type="s64_t">2294000000</CPUFrequency>
+  <CPUFamily type="s32_t">6</CPUFamily>
+  <CPUModel type="s32_t">42</CPUModel>
+  <CPUStepping type="s32_t">7</CPUStepping>
+  <CPUBrandName>       Intel(R) Core(TM) i3-2350M CPU @ 2.30GHz</CPUBrandName>
+  <isa>avx</isa>
+ </rdmgr>
+ <contextValues type="bag"/>
+ <All_Configurations-All_Platforms>
+  <per_group_workloads>
+   <release>release</release>
+  </per_group_workloads>
+  <searchDirs>
+   <searchCategory>
+    <category type="u8_t">1</category>
+   </searchCategory>
+   <searchCategory>
+    <category type="u8_t">2</category>
+   </searchCategory>
+   <searchCategory>
+    <category type="u8_t">3</category>
+   </searchCategory>
+   <searchCategory>
+    <category type="u8_t">4</category>
+   </searchCategory>
+  </searchDirs>
+  <excludeFiles type="bag"/>
+  <target_settings>
+   <selected_workload>
+    <localhost>release</localhost>
+   </selected_workload>
+   <result_dir>
+    <localhost>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering\My Advisor Results - NUCovering</localhost>
+   </result_dir>
+   <result_pattern>
+    <localhost>r@@@{at}</localhost>
+   </result_pattern>
+   <workloads>
+    <localhost>
+     <attach-survey type="pointer" type_id="dasID_cctrl2::AttachWorkload" ptr_type="dasID_cctrl2::IWorkload">
+      <workload>
+       <targetName>attach-survey</targetName>
+       <use_app_dir_as_work_dir type="bool">false</use_app_dir_as_work_dir>
+       <attach.process_name>NUCovering.exe</attach.process_name>
+       <attach.pid type="null"></attach.pid>
+       <result_directory.path>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering\My Advisor Results - NUCovering\r@@@{at}</result_directory.path>
+       <search_directories>
+        <item>
+         <value>sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release</value>
+        </item>
+        <item>
+         <value>sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering</value>
+        </item>
+        <item>
+         <value>sym=srv*C:\Users\Artyom\AppData\Local\Temp\SymbolCache</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Windows Kits\8.1\bin\x86</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\tools</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\ide</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\HTML Help Workshop</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\MSBuild\14.0\bin</value>
+        </item>
+        <item>
+         <value>bin=C:\Windows\Microsoft.NET\Framework\v4.0.30319</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\NativeBinaries\x86</value>
+        </item>
+        <item>
+         <value>bin=D:\Program Files\MATLAB\R2013b\bin\win64</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files\Microsoft SQL Server\110\Tools\Binn</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files\Git\cmd</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\AppData\Local\GitHubDesktop\bin</value>
+        </item>
+       </search_directories>
+       <context>
+        <contextValue>
+         <id>auto_finalize</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>dataLimit</id>
+         <value type="s32_t">500</value>
+        </contextValue>
+        <contextValue>
+         <id>interval</id>
+         <value type="s32_t">10</value>
+        </contextValue>
+        <contextValue>
+         <id>mklUserMode</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>modules_switch</id>
+         <value>knob.modules_switch.exclude</value>
+        </contextValue>
+        <contextValue>
+         <id>mrteMode</id>
+         <value>auto</value>
+        </contextValue>
+        <contextValue>
+         <id>process_for_analysis</id>
+         <value></value>
+        </contextValue>
+        <contextValue>
+         <id>profilePython</id>
+         <value type="bool">false</value>
+        </contextValue>
+        <contextValue>
+         <id>resumeAfter</id>
+         <value type="s32_t">0</value>
+        </contextValue>
+        <contextValue>
+         <id>runBenchmarks</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>spillAnalysis</id>
+         <value type="bool">false</value>
+        </contextValue>
+        <contextValue>
+         <id>stackStitching</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>stackwalk</id>
+         <value>offline</value>
+        </contextValue>
+        <contextValue>
+         <id>static_instruction_mix</id>
+         <value type="bool">false</value>
+        </contextValue>
+        <contextValue>
+         <id>support_multi_isa_binaries</id>
+         <value type="bool">false</value>
+        </contextValue>
+        <contextValue>
+         <id>targetType</id>
+         <value>attach-survey</value>
+        </contextValue>
+       </context>
+      </workload>
+     </attach-survey>
+     <debug type="pointer" type_id="dasID_cctrl2::ApplicationWorkload" ptr_type="dasID_cctrl2::IWorkload">
+      <workload>
+       <targetName>debug</targetName>
+       <launch_app.app_to_launch>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release\NUCovering.exe</launch_app.app_to_launch>
+       <launch_app.working_folder>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering</launch_app.working_folder>
+       <launch_app.environment>PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;%PATH%&#13;
+PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;%PATH%</launch_app.environment>
+       <launch_app.environment_prepend>PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;</launch_app.environment_prepend>
+       <use_app_dir_as_work_dir type="bool">false</use_app_dir_as_work_dir>
+       <result_directory.path>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering\My Advisor Results - NUCovering\r@@@{at}</result_directory.path>
+       <search_directories>
+        <item>
+         <value>sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release</value>
+        </item>
+        <item>
+         <value>sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering</value>
+        </item>
+        <item>
+         <value>sym=srv*C:\Users\Artyom\AppData\Local\Temp\SymbolCache</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Windows Kits\8.1\bin\x86</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\tools</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\ide</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\HTML Help Workshop</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\MSBuild\14.0\bin</value>
+        </item>
+        <item>
+         <value>bin=C:\Windows\Microsoft.NET\Framework\v4.0.30319</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\NativeBinaries\x86</value>
+        </item>
+        <item>
+         <value>bin=D:\Program Files\MATLAB\R2013b\bin\win64</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files\Microsoft SQL Server\110\Tools\Binn</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files\Git\cmd</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\AppData\Local\GitHubDesktop\bin</value>
+        </item>
+       </search_directories>
+       <context>
+        <contextValue>
+         <id>analysis_mode</id>
+         <value>default</value>
+        </contextValue>
+        <contextValue>
+         <id>loops</id>
+         <value></value>
+        </contextValue>
+        <contextValue>
+         <id>mark-up-list</id>
+         <value></value>
+        </contextValue>
+        <contextValue>
+         <id>mrteMode</id>
+         <value>auto</value>
+        </contextValue>
+        <contextValue>
+         <id>process_for_analysis</id>
+         <value></value>
+        </contextValue>
+        <contextValue>
+         <id>reduction_filtering</id>
+         <value type="bool">false</value>
+        </contextValue>
+        <contextValue>
+         <id>scope_filtering</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>stack_offset</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>stop_after</id>
+         <value type="s32_t">0</value>
+        </contextValue>
+        <contextValue>
+         <id>suppressions</id>
+         <value>none</value>
+        </contextValue>
+        <contextValue>
+         <id>targetType</id>
+         <value>debug</value>
+        </contextValue>
+        <contextValue>
+         <id>vsdbg_support</id>
+         <value>off</value>
+        </contextValue>
+       </context>
+      </workload>
+     </debug>
+     <map type="pointer" type_id="dasID_cctrl2::ApplicationWorkload" ptr_type="dasID_cctrl2::IWorkload">
+      <workload>
+       <targetName>map</targetName>
+       <launch_app.app_to_launch>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release\NUCovering.exe</launch_app.app_to_launch>
+       <launch_app.working_folder>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering</launch_app.working_folder>
+       <launch_app.environment>PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;%PATH%&#13;
+PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;%PATH%</launch_app.environment>
+       <launch_app.environment_prepend>PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;</launch_app.environment_prepend>
+       <use_app_dir_as_work_dir type="bool">false</use_app_dir_as_work_dir>
+       <result_directory.path>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering\My Advisor Results - NUCovering\r@@@{at}</result_directory.path>
+       <search_directories>
+        <item>
+         <value>sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release</value>
+        </item>
+        <item>
+         <value>sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering</value>
+        </item>
+        <item>
+         <value>sym=srv*C:\Users\Artyom\AppData\Local\Temp\SymbolCache</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Windows Kits\8.1\bin\x86</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\tools</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\ide</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\HTML Help Workshop</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\MSBuild\14.0\bin</value>
+        </item>
+        <item>
+         <value>bin=C:\Windows\Microsoft.NET\Framework\v4.0.30319</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\NativeBinaries\x86</value>
+        </item>
+        <item>
+         <value>bin=D:\Program Files\MATLAB\R2013b\bin\win64</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files\Microsoft SQL Server\110\Tools\Binn</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files\Git\cmd</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\AppData\Local\GitHubDesktop\bin</value>
+        </item>
+       </search_directories>
+       <context>
+        <contextValue>
+         <id>loops</id>
+         <value></value>
+        </contextValue>
+        <contextValue>
+         <id>mark-up-list</id>
+         <value></value>
+        </contextValue>
+        <contextValue>
+         <id>mrteMode</id>
+         <value>auto</value>
+        </contextValue>
+        <contextValue>
+         <id>process_for_analysis</id>
+         <value></value>
+        </contextValue>
+        <contextValue>
+         <id>recordHeapMemory</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>recordStackFrame</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>suppressions</id>
+         <value>none</value>
+        </contextValue>
+        <contextValue>
+         <id>targetType</id>
+         <value>map</value>
+        </contextValue>
+       </context>
+      </workload>
+     </map>
+     <release type="pointer" type_id="dasID_cctrl2::ApplicationWorkload" ptr_type="dasID_cctrl2::IWorkload">
+      <workload>
+       <targetName>release</targetName>
+       <launch_app.inherit_sys_environment type="bool">true</launch_app.inherit_sys_environment>
+       <launch_app.mpi_run type="bool">false</launch_app.mpi_run>
+       <launch.userapppath>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release\NUCovering.exe</launch.userapppath>
+       <launch_app.app_parameters></launch_app.app_parameters>
+       <launch.userappworkdir>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering</launch.userappworkdir>
+       <launch_app.mpi_max_rank type="null"></launch_app.mpi_max_rank>
+       <launch_app.app_to_launch>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release\NUCovering.exe</launch_app.app_to_launch>
+       <launch_app.working_folder>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering</launch_app.working_folder>
+       <launch_app.environment>PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;%PATH%&#13;
+PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;%PATH%</launch_app.environment>
+       <launch_app.environment_prepend>PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;</launch_app.environment_prepend>
+       <use_app_dir_as_work_dir type="bool">false</use_app_dir_as_work_dir>
+       <result_directory.path>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering\My Advisor Results - NUCovering\r@@@{at}</result_directory.path>
+       <search_directories>
+        <item>
+         <value>sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release</value>
+        </item>
+        <item>
+         <value>sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering</value>
+        </item>
+        <item>
+         <value>sym=srv*C:\Users\Artyom\AppData\Local\Temp\SymbolCache</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Windows Kits\8.1\bin\x86</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\tools</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\ide</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\HTML Help Workshop</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\MSBuild\14.0\bin</value>
+        </item>
+        <item>
+         <value>bin=C:\Windows\Microsoft.NET\Framework\v4.0.30319</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\NativeBinaries\x86</value>
+        </item>
+        <item>
+         <value>bin=D:\Program Files\MATLAB\R2013b\bin\win64</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files\Microsoft SQL Server\110\Tools\Binn</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files\Git\cmd</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\AppData\Local\GitHubDesktop\bin</value>
+        </item>
+       </search_directories>
+       <context>
+        <contextValue>
+         <id>auto_finalize</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>dataLimit</id>
+         <value type="s32_t">500</value>
+        </contextValue>
+        <contextValue>
+         <id>interval</id>
+         <value type="s32_t">10</value>
+        </contextValue>
+        <contextValue>
+         <id>mklUserMode</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>modules_switch</id>
+         <value>knob.modules_switch.exclude</value>
+        </contextValue>
+        <contextValue>
+         <id>mrteMode</id>
+         <value>auto</value>
+        </contextValue>
+        <contextValue>
+         <id>process_for_analysis</id>
+         <value></value>
+        </contextValue>
+        <contextValue>
+         <id>profilePython</id>
+         <value type="bool">false</value>
+        </contextValue>
+        <contextValue>
+         <id>resumeAfter</id>
+         <value type="s32_t">0</value>
+        </contextValue>
+        <contextValue>
+         <id>runBenchmarks</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>spillAnalysis</id>
+         <value type="bool">false</value>
+        </contextValue>
+        <contextValue>
+         <id>stackStitching</id>
+         <value type="bool">true</value>
+        </contextValue>
+        <contextValue>
+         <id>stackwalk</id>
+         <value>offline</value>
+        </contextValue>
+        <contextValue>
+         <id>static_instruction_mix</id>
+         <value type="bool">false</value>
+        </contextValue>
+        <contextValue>
+         <id>support_multi_isa_binaries</id>
+         <value type="bool">false</value>
+        </contextValue>
+        <contextValue>
+         <id>targetType</id>
+         <value>release</value>
+        </contextValue>
+       </context>
+      </workload>
+     </release>
+     <suitability type="pointer" type_id="dasID_cctrl2::ApplicationWorkload" ptr_type="dasID_cctrl2::IWorkload">
+      <workload>
+       <targetName>suitability</targetName>
+       <launch_app.app_to_launch>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release\NUCovering.exe</launch_app.app_to_launch>
+       <launch_app.working_folder>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering</launch_app.working_folder>
+       <launch_app.environment>PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;%PATH%&#13;
+PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;%PATH%</launch_app.environment>
+       <launch_app.environment_prepend>PATH=C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018\windows\redist\intel64\compiler;</launch_app.environment_prepend>
+       <use_app_dir_as_work_dir type="bool">false</use_app_dir_as_work_dir>
+       <result_directory.path>C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\NUCovering\My Advisor Results - NUCovering\r@@@{at}</result_directory.path>
+       <search_directories>
+        <item>
+         <value>sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release</value>
+        </item>
+        <item>
+         <value>sym=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering</value>
+        </item>
+        <item>
+         <value>sym=srv*C:\Users\Artyom\AppData\Local\Temp\SymbolCache</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering\x64\Release</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\Documents\Visual Studio 2015\Projects\NUCovering</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin\x86_amd64</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\bin</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Windows Kits\8.1\bin\x86</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.6.1 Tools</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\tools</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\ide</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\HTML Help Workshop</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\MSBuild\14.0\bin</value>
+        </item>
+        <item>
+         <value>bin=C:\Windows\Microsoft.NET\Framework\v4.0.30319</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\IDE\CommonExtensions\Microsoft\TeamFoundation\Team Explorer\NativeBinaries\x86</value>
+        </item>
+        <item>
+         <value>bin=D:\Program Files\MATLAB\R2013b\bin\win64</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files\Microsoft SQL Server\110\Tools\Binn</value>
+        </item>
+        <item>
+         <value>bin=C:\Program Files\Git\cmd</value>
+        </item>
+        <item>
+         <value>bin=C:\Users\Artyom\AppData\Local\GitHubDesktop\bin</value>
+        </item>
+       </search_directories>
+       <context>
+        <contextValue>
+         <id>dataLimit</id>
+         <value type="s32_t">500</value>
+        </contextValue>
+        <contextValue>
+         <id>interval</id>
+         <value type="s32_t">10</value>
+        </contextValue>
+        <contextValue>
+         <id>mrteMode</id>
+         <value>auto</value>
+        </contextValue>
+        <contextValue>
+         <id>process_for_analysis</id>
+         <value></value>
+        </contextValue>
+        <contextValue>
+         <id>resumeAfter</id>
+         <value type="s32_t">0</value>
+        </contextValue>
+        <contextValue>
+         <id>runBenchmarks</id>
+         <value type="bool">false</value>
+        </contextValue>
+        <contextValue>
+         <id>targetType</id>
+         <value>suitability</value>
+        </contextValue>
+       </context>
+      </workload>
+     </suitability>
+    </localhost>
+   </workloads>
+  </target_settings>
+ </All_Configurations-All_Platforms>
+</root>

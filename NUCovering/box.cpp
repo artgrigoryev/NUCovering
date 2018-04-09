@@ -9,7 +9,7 @@ Box::Box(const double* iparams) :
 //------------------------------------------------------------------------------------------
 void Box::GetParameters(double* oparams) const
 {
-	oparams[0]= x_min;
+	oparams[0] = x_min;
 	oparams[1] = x_range;
 	oparams[2] = y_min;
 	oparams[3] = y_range;
@@ -35,5 +35,5 @@ void Box::GetAngleRange(double& oangle_min, double& oangle_range) const
 //------------------------------------------------------------------------------------------
 double Box::GetDiagonal() const
 {
-	return sqrt(x_range*x_range + y_range*y_range + phi_range*phi_range);
+	return sqrt(x_range * x_range + y_range * y_range + phi_range * phi_range);
 }

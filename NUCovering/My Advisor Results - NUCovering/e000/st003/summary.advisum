@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- <!DOCTYPE IntelParallelAdvisorSummaryCollection SYSTEM  "IntelParallelAdvisorSummaryCollection.dtd"> -->
+
+<IntelParallelAdvisorSummary version="0.1" 
+                             kind="DATAKIND_SUITABILITY" 
+                             duration_total="2.101134E+003"
+                             num_processors="8" 
+                             num_mic_threads="128" 
+                             threading_paradigm="cilk" 
+                             target_system="cpu" 
+                             program_max_gain="7.543388E+000" >
+  <site filename="c:\users\artyom\documents\visual studio 2015\projects\nucovering\nucovering\fragmentation.cpp" 
+        line_no="598" 
+        label="tree">
+    <suitability duration_total="2.101080E+003" 
+                 num_instances="1">
+      <estimated_speedup>
+       <scaling threading_paradigm="tbb" 
+                site_overhead="false" 
+                task_overhead="false" 
+                task_chunking="false" 
+                lock_overhead="false" 
+                lock_contention="false" >
+          <scale cpu="8" speedup="3.434818E+002" />
+        </scaling>
+      </estimated_speedup>
+    </suitability>
+  </site>
+  <site filename="c:\users\artyom\documents\visual studio 2015\projects\nucovering\nucovering\fragmentation.cpp" 
+        line_no="534" 
+        label="grid">
+    <suitability duration_total="2.029250E+003" 
+                 num_instances="527065">
+      <estimated_speedup>
+       <scaling threading_paradigm="tbb" 
+                site_overhead="false" 
+                task_overhead="false" 
+                task_chunking="false" 
+                lock_overhead="false" 
+                lock_contention="false" >
+          <scale cpu="8" speedup="3.091253E+002" />
+        </scaling>
+      </estimated_speedup>
+    </suitability>
+  </site>
+  <task filename="c:\users\artyom\documents\visual studio 2015\projects\nucovering\nucovering\fragmentation.cpp" 
+        line_no="613" 
+        label="get_box_type" 
+        duration_total="2.101070E+003" 
+        num_instances="115" />
+  <task filename="c:\users\artyom\documents\visual studio 2015\projects\nucovering\nucovering\fragmentation.cpp" 
+        line_no="538" 
+        label="brutе_force" 
+        duration_total="1.992479E+003" 
+        num_instances="910768320" />
+  <lock filename="" 
+        line_no="0" 
+        label="" 
+        duration_total="1.363796E+000" 
+        num_instances="806795" />
+</IntelParallelAdvisorSummary >

@@ -1,11 +1,10 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include <engine.h>
-//#include <cilk/cilk.h>
-//#include <cilk/reducer_vector.h>
 #include <fstream>
 #include <algorithm>
 #include "fragmentation.h"
+#include "advisor-annotate.h"
 
 using std::vector;
 
@@ -15,8 +14,8 @@ using std::vector;
 // 2 ПИ радиан
 const double TWO_PI = M_PI * 2.0;
 
-const double P_MIN2 = p_min*p_min;
-const double P_MAX2 = p_max*p_max;
+const double P_MIN2 = p_min * p_min;
+const double P_MAX2 = p_max * p_max;
 
 // коэффициент, используемый для перевода значения угла из градусов в радианы
 const double DEGREES_2_RADIAN = M_PI / 180.0;
@@ -29,9 +28,9 @@ const double PI_DEGREES = 180.0;
 const double TWO_PI_DEGREES = 360.0;
 
 // количество точек в квадрате (суммарное по двум осям)
-const unsigned int SQUARED_POINTS_PER_AXIS = points_per_axis*points_per_axis;
+const unsigned int SQUARED_POINTS_PER_AXIS = POINTS_PER_AXIS*POINTS_PER_AXIS;
 // общее количество точек в 3-х измерениях в рамках рассматриваемого box'a 
-const unsigned int TOTAL_POINTS_IN_BOX = SQUARED_POINTS_PER_AXIS*points_per_axis;
+const unsigned int TOTAL_POINTS_IN_BOX = SQUARED_POINTS_PER_AXIS*POINTS_PER_AXIS;
 
 // общее количество функций gj
 const unsigned int AMOUNT_OF_Gjs = 18;
@@ -71,43 +70,43 @@ inline double YbiOxy(const unsigned int& i, const double& y, const double& phi)
 //******************************************************************************************
 // // Определение функций gj()
 //******************************************************************************************
-void g2i_1(const double& x, const double& y, const double& phi, vector<double>& func_values)
+void g2i_1(const double& x, const double& y, const double& phi, double* func_values)
 {
 	double a1 = XbiOxy(0, x, phi) - xa[0];
 	double a2 = YbiOxy(0, y, phi) - ya[0];
-	func_values.push_back(a1*a1 + a2*a2 - P_MAX2);
+    func_values[0] = (a1*a1 + a2*a2 - P_MAX2);
 	
 	//
 	a1 = XbiOxy(1, x, phi) - xa[1];
 	a2 = YbiOxy(1, y, phi) - ya[1];
-	func_values.push_back(a1*a1 + a2*a2 - P_MAX2);
+    func_values[1] = (a1*a1 + a2*a2 - P_MAX2);
 
 	//
 	a1 = XbiOxy(2, x, phi) - xa[2];
 	a2 = YbiOxy(2, y, phi) - ya[2];
-	func_values.push_back(a1*a1 + a2*a2 - P_MAX2);
+    func_values[2] = (a1*a1 + a2*a2 - P_MAX2);
 }
 
 //------------------------------------------------------------------------------------------
-void g2i(const double& x, const double& y, const double& phi, vector<double>& func_values)
+void g2i(const double& x, const double& y, const double& phi, double* func_values)
 {
 	double a1 = XbiOxy(0, x, phi) - Xci(0, phi);
 	double a2 = YbiOxy(0, y, phi) - Yci(0, phi);
-	func_values.push_back(P_MIN2 - a1*a1 - a2*a2);
+	func_values[3] = (P_MIN2 - a1*a1 - a2*a2);
 
 	//
 	a1 = XbiOxy(1, x, phi) - Xci(1, phi);
 	a2 = YbiOxy(1, y, phi) - Yci(1, phi);
-	func_values.push_back(P_MIN2 - a1*a1 - a2*a2);
+    func_values[4] = (P_MIN2 - a1*a1 - a2*a2);
 
 	//
 	a1 = XbiOxy(2, x, phi) - Xci(2, phi);
 	a2 = YbiOxy(2, y, phi) - Yci(2, phi);
-	func_values.push_back(P_MIN2 - a1*a1 - a2*a2);
+    func_values[5] = (P_MIN2 - a1*a1 - a2*a2);
 }
 
 //------------------------------------------------------------------------------------------
-void g2i_5(const double& x, const double& y, const double& phi, vector<double>& func_values)
+void g2i_5(const double& x, const double& y, const double& phi, double* func_values)
 {
 	double dist_y = YbiOxy(0, y, phi) - ya[0];
 	double dist_x = XbiOxy(0, x, phi) - xa[0];
@@ -118,9 +117,9 @@ void g2i_5(const double& x, const double& y, const double& phi, vector<double>& 
 	// modified 27.02.18
 	double rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
 	if (dist_y >= 0.0) 
-		func_values.push_back(acos(dist_x / rho_i)*RADIAN_2_DEGREES - theta_ai_max[0]);
+        func_values[6] = (acos(dist_x / rho_i) * RADIAN_2_DEGREES - theta_ai_max[0]);
 	else 
-		func_values.push_back((TWO_PI - acos(dist_x / rho_i))*RADIAN_2_DEGREES - theta_ai_max[0]);
+        func_values[6] = ((TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES - theta_ai_max[0]);
 
 	//
 	dist_y = YbiOxy(1, y, phi) - ya[1];
@@ -132,9 +131,9 @@ void g2i_5(const double& x, const double& y, const double& phi, vector<double>& 
 	// modified 27.02.18
 	rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
 	if (dist_y >= 0.0) 
-		func_values.push_back(acos(dist_x / rho_i)*RADIAN_2_DEGREES - theta_ai_max[1]);
+        func_values[7] = (acos(dist_x / rho_i) * RADIAN_2_DEGREES - theta_ai_max[1]);
 	else 
-		func_values.push_back((TWO_PI - acos(dist_x / rho_i))*RADIAN_2_DEGREES - theta_ai_max[1]);
+        func_values[7] = ((TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES - theta_ai_max[1]);
 
 	//
 	dist_y = YbiOxy(2, y, phi) - ya[2];
@@ -146,24 +145,24 @@ void g2i_5(const double& x, const double& y, const double& phi, vector<double>& 
 	// modified 27.02.18
 	rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
 	if (dist_y >= 0.0) 
-		func_values.push_back(acos(dist_x / rho_i)*RADIAN_2_DEGREES - theta_ai_max[2]);
+        func_values[8] = (acos(dist_x / rho_i) * RADIAN_2_DEGREES - theta_ai_max[2]);
 	else 
-		func_values.push_back((TWO_PI - acos(dist_x / rho_i))*RADIAN_2_DEGREES - theta_ai_max[2]);
+        func_values[8] = ((TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES - theta_ai_max[2]);
 }
 
 //------------------------------------------------------------------------------------------
-void g2i_6(const double& x, const double& y, const double& phi, vector<double>& func_values)
+void g2i_6(const double& x, const double& y, const double& phi, double* func_values)
 {
 	double dist_y = YbiOxy(0, y, phi) - ya[0];
 	double dist_x = XbiOxy(0, x, phi) - xa[0];
 	//func_values.push_back(theta_ai_min[0] - (atan2(dist_y, dist_x) * RADIAN_2_DEGREES));
 
 	// modified 27.02.18
-	double rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
+	double rho_i = sqrt(dist_x * dist_x + dist_y * dist_y);
 	if (dist_y >= 0.0) 
-		func_values.push_back(theta_ai_min[0] - acos(dist_x / rho_i)*RADIAN_2_DEGREES);
+        func_values[9] = (theta_ai_min[0] - acos(dist_x / rho_i) * RADIAN_2_DEGREES);
 	else 
-		func_values.push_back(theta_ai_min[0] + (acos(dist_x / rho_i) - TWO_PI)*RADIAN_2_DEGREES);
+        func_values[9] = (theta_ai_min[0] + (acos(dist_x / rho_i) - TWO_PI) * RADIAN_2_DEGREES);
 
 	//
 	dist_y = YbiOxy(1, y, phi) - ya[1];
@@ -171,11 +170,11 @@ void g2i_6(const double& x, const double& y, const double& phi, vector<double>& 
 	//func_values.push_back(theta_ai_min[1] - (atan2(dist_y, dist_x) * RADIAN_2_DEGREES));
 
 	// modified 27.02.18
-	rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
+	rho_i = sqrt(dist_x *  dist_x + dist_y * dist_y);
 	if (dist_y >= 0.0) 
-		func_values.push_back(theta_ai_min[1] - acos(dist_x / rho_i)*RADIAN_2_DEGREES);
+        func_values[10] = (theta_ai_min[1] - acos(dist_x / rho_i) * RADIAN_2_DEGREES);
 	else 
-		func_values.push_back(theta_ai_min[1] + (acos(dist_x / rho_i) - TWO_PI)*RADIAN_2_DEGREES);
+        func_values[10] = (theta_ai_min[1] + (acos(dist_x / rho_i) - TWO_PI) * RADIAN_2_DEGREES);
 
 	//
 	dist_y = YbiOxy(2, y, phi) - ya[2];
@@ -183,15 +182,15 @@ void g2i_6(const double& x, const double& y, const double& phi, vector<double>& 
 	//func_values.push_back(theta_ai_min[2] - (atan2(dist_y, dist_x) * RADIAN_2_DEGREES));
 
 	// modified 27.02.18
-	rho_i = sqrt(dist_x*dist_x + dist_y*dist_y);
+	rho_i = sqrt(dist_x * dist_x + dist_y * dist_y);
 	if (dist_y >= 0.0) 
-		func_values.push_back(theta_ai_min[2] - acos(dist_x / rho_i)*RADIAN_2_DEGREES);
+        func_values[11] = (theta_ai_min[2] - acos(dist_x / rho_i) * RADIAN_2_DEGREES);
 	else 
-		func_values.push_back(theta_ai_min[2] + (acos(dist_x / rho_i) - TWO_PI)*RADIAN_2_DEGREES);
+        func_values[11] = (theta_ai_min[2] + (acos(dist_x / rho_i) - TWO_PI) * RADIAN_2_DEGREES);
 }
 
 //------------------------------------------------------------------------------------------
-void g2i_11(const double& x, const double& y, const double& phi, vector<double>& func_values)
+void g2i_11(const double& x, const double& y, const double& phi, double* func_values)
 {
 	double dist_x = XbiOxy(0, x, phi) - xa[0];
 	double dist_y = YbiOxy(0, y, phi) - ya[0];
@@ -205,9 +204,9 @@ void g2i_11(const double& x, const double& y, const double& phi, vector<double>&
 		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
 	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
-		func_values.push_back( theta_ai - phi + PI_DEGREES - theta_bi_max[0]);
+        func_values[12] = ( theta_ai - phi + PI_DEGREES - theta_bi_max[0]);
 	else
-		func_values.push_back(theta_ai - phi - PI_DEGREES - theta_bi_max[0]);
+        func_values[12] = (theta_ai - phi - PI_DEGREES - theta_bi_max[0]);
 
 	//
 	dist_x = XbiOxy(1, x, phi) - xa[1];
@@ -220,9 +219,9 @@ void g2i_11(const double& x, const double& y, const double& phi, vector<double>&
 		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
 	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
-		func_values.push_back(theta_ai - phi + PI_DEGREES - theta_bi_max[1]);
+        func_values[13] = (theta_ai - phi + PI_DEGREES - theta_bi_max[1]);
 	else
-		func_values.push_back(theta_ai - phi - PI_DEGREES - theta_bi_max[1]);
+        func_values[13] = (theta_ai - phi - PI_DEGREES - theta_bi_max[1]);
 
 	//
 	dist_x = XbiOxy(2, x, phi) - xa[2];
@@ -235,13 +234,13 @@ void g2i_11(const double& x, const double& y, const double& phi, vector<double>&
 		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
 	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
-		func_values.push_back(theta_ai - phi + PI_DEGREES - theta_bi_max[2]);
+        func_values[14] = (theta_ai - phi + PI_DEGREES - theta_bi_max[2]);
 	else
-		func_values.push_back(theta_ai - phi - PI_DEGREES - theta_bi_max[2]);
+        func_values[14] = (theta_ai - phi - PI_DEGREES - theta_bi_max[2]);
 }
 
 //------------------------------------------------------------------------------------------
-void g2i_12(const double& x, const double& y, const double& phi, vector<double>& func_values)
+void g2i_12(const double& x, const double& y, const double& phi, double* func_values)
 {
 	double dist_x = XbiOxy(0, x, phi) - xa[0];
 	double dist_y = YbiOxy(0, y, phi) - ya[0];
@@ -255,9 +254,9 @@ void g2i_12(const double& x, const double& y, const double& phi, vector<double>&
 		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
 	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
-		func_values.push_back(theta_bi_min[0] - theta_ai + phi - PI_DEGREES);
+        func_values[15] = (theta_bi_min[0] - theta_ai + phi - PI_DEGREES);
 	else
-		func_values.push_back(theta_bi_min[0] - theta_ai + phi + PI_DEGREES);
+        func_values[15] = (theta_bi_min[0] - theta_ai + phi + PI_DEGREES);
 
 	//
 	dist_x = XbiOxy(1, x, phi) - xa[1];
@@ -270,9 +269,9 @@ void g2i_12(const double& x, const double& y, const double& phi, vector<double>&
 		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
 	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
-		func_values.push_back(theta_bi_min[1] - theta_ai + phi - PI_DEGREES);
+        func_values[16] = (theta_bi_min[1] - theta_ai + phi - PI_DEGREES);
 	else
-		func_values.push_back(theta_bi_min[1] - theta_ai + phi + PI_DEGREES);
+        func_values[16] = (theta_bi_min[1] - theta_ai + phi + PI_DEGREES);
 
 	//
 	dist_x = XbiOxy(2, x, phi) - xa[2];
@@ -285,16 +284,16 @@ void g2i_12(const double& x, const double& y, const double& phi, vector<double>&
 		theta_ai = (TWO_PI - acos(dist_x / rho_i)) * RADIAN_2_DEGREES;
 
 	if ((theta_ai - phi + PI_DEGREES) < TWO_PI_DEGREES)
-		func_values.push_back(theta_bi_min[2] - theta_ai + phi - PI_DEGREES);
+        func_values[17] = (theta_bi_min[2] - theta_ai + phi - PI_DEGREES);
 	else
-		func_values.push_back(theta_bi_min[2] - theta_ai + phi + PI_DEGREES);
+        func_values[17] = (theta_bi_min[2] - theta_ai + phi + PI_DEGREES);
 }
 //******************************************************************************************
 
 
 
 //------------------------------------------------------------------------------------------
-void GetFuncValuesInPoint(const double& x, const double& y, const double& phi, vector<double>& func_values)
+void GetFuncValuesInPoint(const double& x, const double& y, const double& phi, double* func_values)
 {
 	g2i_1(x, y, phi, func_values);
 	g2i(x, y, phi, func_values);
@@ -338,14 +337,12 @@ void low_level_fragmentation::SplitByX(const Box& box, boxes_pair& new_pair_of_b
 	double* box_params = new double[6];
 	box.GetParameters(box_params);
 
-	double x_min = box_params[0];
-	double new_x_range = box_params[1] * 0.5;
+    box_params[1] *= 0.5;
+	new_pair_of_boxes.first = Box(box_params);
 
-	double new_box_params[6] = { x_min, new_x_range, box_params[2], box_params[3], box_params[4], box_params[5] };
-	new_pair_of_boxes.first = Box(new_box_params);
-
-	new_box_params[0] = x_min + new_x_range;
-	new_pair_of_boxes.second = Box(new_box_params);
+    box_params[0] += box_params[1];
+	new_pair_of_boxes.second = Box(box_params);
+    delete[] box_params;
 }
 
 //------------------------------------------------------------------------------------------
@@ -354,14 +351,12 @@ void low_level_fragmentation::SplitByY(const Box& box, boxes_pair& new_pair_of_b
 	double* box_params = new double[6];
 	box.GetParameters(box_params);
 
-	double y_min = box_params[2];
-	double new_y_range = box_params[3] * 0.5;
+    box_params[3] *= 0.5;
+	new_pair_of_boxes.first = Box(box_params);
 
-	double new_box_params[6] = { box_params[0], box_params[1], y_min, new_y_range, box_params[4], box_params[5] };
-	new_pair_of_boxes.first = Box(new_box_params);
-
-	new_box_params[2] = y_min + new_y_range;
-	new_pair_of_boxes.second = Box(new_box_params);
+    box_params[2] += box_params[3];
+	new_pair_of_boxes.second = Box(box_params);
+    delete[] box_params;
 }
 
 //------------------------------------------------------------------------------------------
@@ -370,14 +365,12 @@ void low_level_fragmentation::SplitByPhi(const Box& box, boxes_pair& new_pair_of
 	double* box_params = new double[6];
 	box.GetParameters(box_params);
 
-	double phi_min = box_params[4];
-	double new_phi_range = box_params[5] * 0.5;
+    box_params[5] *= 0.5;
+	new_pair_of_boxes.first = Box(box_params);
 
-	double new_box_params[6] = { box_params[0], box_params[1], box_params[2], box_params[3], phi_min, new_phi_range };
-	new_pair_of_boxes.first = Box(new_box_params);
-
-	new_box_params[4] = phi_min + new_phi_range;
-	new_pair_of_boxes.second = Box(new_box_params);
+    box_params[4] += box_params[5];
+	new_pair_of_boxes.second = Box(box_params);
+    delete[] box_params;
 }
 
 //------------------------------------------------------------------------------------------
@@ -386,14 +379,14 @@ void low_level_fragmentation::GetNewBoxes(const Box& box, boxes_pair& new_pair_o
 	double x_range, y_range, phi_range;
 	box.GetXYPhiRanges(x_range, y_range, phi_range);
 
-	if (x_range >= y_range)
+	if (x_range > y_range)
 	{
-		if (x_range >= phi_range) SplitByX(box, new_pair_of_boxes);
+		if (x_range > phi_range) SplitByX(box, new_pair_of_boxes);
 		else SplitByPhi(box, new_pair_of_boxes);
 	}
 	else
 	{
-		if (y_range >= phi_range) SplitByY(box, new_pair_of_boxes);
+		if (y_range > phi_range) SplitByY(box, new_pair_of_boxes);
 		else SplitByPhi(box, new_pair_of_boxes);
 	}
 }
@@ -411,7 +404,6 @@ unsigned int low_level_fragmentation::FindTreeDepth()
 	else
 	{
 		boxes_pair new_boxes;
-		//SplitByY(current_box, new_boxes);
 		GetNewBoxes(current_box, new_boxes);
 		unsigned int tree_depth = 1;
 
@@ -423,7 +415,7 @@ unsigned int low_level_fragmentation::FindTreeDepth()
 		}
 		else
 		{
-			for (;; )
+			for (;;)
 			{
 				GetNewBoxes(new_boxes.first, new_boxes);
 				++tree_depth;
@@ -439,29 +431,36 @@ unsigned int low_level_fragmentation::FindTreeDepth()
 }
 
 //------------------------------------------------------------------------------------------
-void low_level_fragmentation::ClasifyBox(const Box& box, const std::vector<double>& func_values) const
+void low_level_fragmentation::ClasifyBox(const Box& box, const double* func_values, unsigned& sz) const
 {
-	puts("ClasifyBox()");
+	//puts("ClasifyBox()");
 
-	if (func_values.empty() == false)
+	if (sz == TOTAL_POINTS_IN_BOX)
 	{
 		// Пара итераторов; первый итератор - указывает на наименьший элемент,
 		// второй - на наибольший.
-		auto min_max_elem = std::minmax_element(func_values.begin(), func_values.end());
+		auto min_max_elem = std::minmax_element(&func_values[0], (func_values + TOTAL_POINTS_IN_BOX));
 
-		if (*min_max_elem.second < 0.0)				// min_max_elem.second - итератор на максимум
-			solution.push_back(box);				// рассматриваемый box входит во множество решений
-		else if (*min_max_elem.first > 0.0)			// min_max_elem.first - итератор на минимум
-			not_solution.push_back(box);			// рассматриваемый box не входит во множество решений
+        if ( *min_max_elem.second < 0.0 )				// min_max_elem.second - итератор на максимум
+        {
+            ANNOTATE_LOCK_ACQUIRE( 0 );
+            solution.emplace_back(box);				// рассматриваемый box входит во множество решений
+            ANNOTATE_LOCK_RELEASE( 0 );
+        }
+        else if ( *min_max_elem.first > 0.0 )			// min_max_elem.first - итератор на минимум
+        {
+            ANNOTATE_LOCK_ACQUIRE( 0 );
+            not_solution.emplace_back(box);			// рассматриваемый box не входит во множество решений
+            ANNOTATE_LOCK_RELEASE( 0 );
+        }
 		else										// рассматриваемый box подлежит разбинению и дальнейшему анализу
 		{
 			boxes_pair another_boxes;
-			GetNewBoxes(box, another_boxes);				
-
-			//next_iter_boxes->push_back(another_boxes.first);
-			next_iter_boxes.push_back(another_boxes.first);
-			//next_iter_boxes->push_back(another_boxes.second);
-			next_iter_boxes.push_back(another_boxes.second);
+            GetNewBoxes( box, another_boxes );
+            ANNOTATE_LOCK_ACQUIRE( 0 );
+			next_iter_boxes.emplace_back(another_boxes.first);
+			next_iter_boxes.emplace_back(another_boxes.second);
+            ANNOTATE_LOCK_RELEASE( 0 );
 		}	
 	}
 }
@@ -472,68 +471,69 @@ void low_level_fragmentation::GetBoxType( const Box& box)
 	//puts("GetBoxType()");
 
 	// вектор хранящий значения максимумов всех функций gj в пределах box'a 
-	vector<double> func_values;
-	func_values.reserve(TOTAL_POINTS_IN_BOX);
+	double* func_values = new double[TOTAL_POINTS_IN_BOX];
+    unsigned sz = 0;
 
-	GetFusncValues(box, func_values);
+	GetFusncValues(box, func_values, sz);
 
-	ClasifyBox(box, func_values);
+	ClasifyBox(box, func_values, sz);
 }
 
 //------------------------------------------------------------------------------------------
-void GetGjValues(const double* box_params, vector<double>& gj_values)
+void GetGjValues(const Box& box, double* gj_values, unsigned& sz)
 {
+    double* box_params = new double[6];
+    box.GetParameters(box_params);
+
+    // вычитаем единицу т.к. кол-во отрезков, на которые делится ось координат
+    // всегда на единицу меньше, чем кол-во точек на этой оси
+    unsigned parts_per_axis = POINTS_PER_AXIS - 1;
+
 	// определение границ по оси x
 	double x_min = box_params[0];
-	double x_range = box_params[1];
-	double x_max = x_min + x_range;
-
-	// вычитаем единицу т.к. кол-во отрезков, на которые делится ось координат 
-	// всегда на единицу меньше, чем кол-во точек на этой оси
-	unsigned parts_per_axis = points_per_axis - 1;
-
 	// определение шага сетки по координате x
-	double step_x = x_range / parts_per_axis;
+	double step_x = box_params[1] / parts_per_axis;
 
 	// определение границ по оси y
 	double y_min = box_params[2];
-	double y_range = box_params[3];
-	double y_max = y_min + y_range;
-
 	// определение шага сетки по координате y
-	double step_y = y_range / parts_per_axis;
+	double step_y = box_params[3] / parts_per_axis;
 
 	// определение границ по оси phi
 	double phi_min = box_params[4];
-	double phi_range = box_params[5];
-	double phi_max = phi_min + phi_range;
-
 	// определение шага сетки по координате phi
-	double step_phi = phi_range / parts_per_axis;
+	double step_phi = box_params[5] / parts_per_axis;
 
-	// координаты первой рассматриваемой точки на сетке
-	double x = x_min, y = y_min, phi = phi_min;
-	
-	vector<double> func_vals_in_curr_point;
-	func_vals_in_curr_point.reserve(AMOUNT_OF_Gjs);
+    delete[] box_params;
 
-	vector<double>::const_iterator max_elem_iter;
+    // массив содержащий значения всех 18 функций в данной конкретной точке (x, y, phi)
+	double* func_vals_in_curr_point = new double[AMOUNT_OF_Gjs];
 
-	// цикл по всем точкам, лежащим внутри box-а
-	for (unsigned k = 0; k < TOTAL_POINTS_IN_BOX; ++k)
+    // координаты первой рассматриваемой точки на сетке
+    double x, y, phi;
+    unsigned k;
+
+    ANNOTATE_SITE_BEGIN( grid )
+        // цикл по всем точкам, лежащим внутри box-а
+	for (k = 0; k < TOTAL_POINTS_IN_BOX; ++k)
 	{ 
+        ANNOTATE_TASK_BEGIN(brutе_force)
 		// определяем координаты очередной точки на сетке
-		x = x_min + step_x*(k % points_per_axis);
-		y = y_min + step_y*((k / points_per_axis) % points_per_axis);
-		phi = phi_min + step_phi*(k / SQUARED_POINTS_PER_AXIS);
+		x = x_min + step_x * (k % POINTS_PER_AXIS);
+		y = y_min + step_y * ((k / POINTS_PER_AXIS) % POINTS_PER_AXIS);
+		phi = phi_min + step_phi * (k / SQUARED_POINTS_PER_AXIS);
 
 		GetFuncValuesInPoint(x, y, phi, func_vals_in_curr_point);
 
-		max_elem_iter = std::max_element(func_vals_in_curr_point.begin(), func_vals_in_curr_point.end());
-		gj_values.push_back(*max_elem_iter);
+		auto max_elem_iter = std::max_element(&func_vals_in_curr_point[0], (func_vals_in_curr_point + AMOUNT_OF_Gjs));
+        gj_values[k] = *max_elem_iter;
 
-		func_vals_in_curr_point.clear();
+        ANNOTATE_TASK_END(brutе_force)
 	}
+    ANNOTATE_SITE_END( grid )
+    sz = TOTAL_POINTS_IN_BOX;
+
+    delete[] func_vals_in_curr_point;
 }
 
 //------------------------------------------------------------------------------------------
@@ -544,23 +544,20 @@ high_level_analysis::high_level_analysis(const double* init_params) :
 high_level_analysis::high_level_analysis(Box& box) : low_level_fragmentation(box) {}
 
 //------------------------------------------------------------------------------------------ 
-void high_level_analysis::GetFusncValues(const Box& box, vector<double>& max_vals)
+void high_level_analysis::GetFusncValues(const Box& box, double* max_vals, unsigned& sz)
 {
 	//puts("GetMaxs()");
 
-	double curr_box_diagonal = box.GetDiagonal();
-
-	if (curr_box_diagonal > g_precision)
+	if (box.GetDiagonal() > g_precision)
 	{
-		double* box_params = new double[6];
-		box.GetParameters(box_params);
-
 		// нахождение максимумов всех 18 функций gj() на рассматриваемом box-е
-		GetGjValues(box_params, max_vals);
+		GetGjValues(box, max_vals, sz);
 	}
 	else	// достигнута желаемая точность аппроксимации рабочего пространства
 	{
-		boundary.push_back(box);
+        ANNOTATE_LOCK_ACQUIRE( 0 );
+		boundary.emplace_back(box);
+        ANNOTATE_LOCK_RELEASE( 0 );
 	}
 }
 
@@ -571,31 +568,29 @@ void high_level_analysis::GetSolution()
 
 	//printf("Tree depth is %d \n", tree_depth);
 
-	next_iter_boxes.push_back(current_box);
-
-	vector<Box> curr_iter_boxes, empty_vec;
+    vector<Box> curr_iter_boxes;
+    curr_iter_boxes.emplace_back(current_box);
+    size_t number_of_box_on_level;
 
 	puts("Getting solution");
 
 	for (unsigned int level = 0; level < (tree_depth + 1); ++level)
 	{
-		size_t number_of_box_on_level = next_iter_boxes.size();
+        number_of_box_on_level = curr_iter_boxes.size();
 
-		//next_iter_boxes.move_out(curr_iter_boxes);
-
-		curr_iter_boxes = next_iter_boxes;
-
-		// ! необходимо очищать содержимое next_iter_boxes
-		//next_iter_boxes.set_value(empty_vec);
-
-		next_iter_boxes.clear();
-
-		//cilk_for(size_t i = 0; i < number_of_box_on_level; ++i)
+        ANNOTATE_SITE_BEGIN(boxes)
 		for (size_t i = 0; i < number_of_box_on_level; ++i)
 		{
+            ANNOTATE_TASK_BEGIN(get_box_type)
 			//printf("i is %d\n", i);
 			GetBoxType(curr_iter_boxes[i]);
+            ANNOTATE_TASK_END(get_box_type)
 		}
+        ANNOTATE_SITE_END(boxes)
+
+        curr_iter_boxes = next_iter_boxes;
+        // ! необходимо очищать содержимое next_iter_boxes перед следующей итерацией
+        next_iter_boxes.clear();
 	}
 }
 
@@ -604,15 +599,15 @@ void FindRingCenters(const double* cmp_angles, const unsigned& cmp_angles_size, 
 	for (unsigned i = 0; i < cmp_angles_size; ++i)
 	{
 		double ksi = cmp_angles[i];
-		double cos_ksi = cos(ksi) * DEGREES_2_RADIAN;
-		double sin_ksi = sin(ksi) * DEGREES_2_RADIAN;
+		double cos_ksi = cos(ksi * DEGREES_2_RADIAN);
+		double sin_ksi = sin(ksi * DEGREES_2_RADIAN);
 
 		for (unsigned j = 0; j < rings_count; ++j)
 		{
 			unsigned id = rings_count * i + j;
 
 			p_u[id] = xa[j] - xb[j] * cos_ksi + yb[j] * sin_ksi;
-			q_u[id] = ya[j] - xb[j] * sin_ksi + yb[j] * cos_ksi;
+			q_u[id] = ya[j] - xb[j] * sin_ksi - yb[j] * cos_ksi;
 		}
 	}
 }
@@ -634,14 +629,26 @@ void PrintWorkspace(const double* cmp_angles,const unsigned& cmp_angles_size, co
 
 	double params[6];
 
-	//solution[0].GetParameters(params);
-	//printf("\nSol[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+	solution[0].GetParameters(params);
+	printf("\nSol[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+    solution[1].GetParameters(params);
+    printf("\nSol[1]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+    solution[2].GetParameters(params);
+    printf("\nSol[2]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
 
-	//not_solution[0].GetParameters(params);
-	//printf("Not_sol[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+	not_solution[0].GetParameters(params);
+	printf("Not_sol[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+    not_solution[1].GetParameters(params);
+    printf("Not_sol[1]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+    not_solution[2].GetParameters(params);
+    printf("Not_sol[2]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
 
-	//boundary[0].GetParameters(params);
-	//printf("Boundary[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+	boundary[0].GetParameters(params);
+	printf("Boundary[0]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+    boundary[1].GetParameters(params);
+    printf("Boundary[1]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
+    boundary[2].GetParameters(params);
+    printf("Boundary[2]: %lf  %lf  %lf  %lf  %lf  %lf\n\n", params[0], params[1], params[2], params[3], params[4], params[5]);
 
 	// solution
 	double* sol_arr = new double[number_of_params*solution_sz];

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- <!DOCTYPE IntelParallelAdvisorSummaryCollection SYSTEM  "IntelParallelAdvisorSummaryCollection.dtd"> -->
+
+<IntelParallelAdvisorSummary version="" 
+                             kind="DATAKIND_SURVEY_EX" >
+  <hotspot filename="c:\users\artyom\documents\visual studio 2015\projects\nucovering\nucovering\fragmentation.cpp"
+           line_no="523"
+           routine="GetGjValues"
+           is_vectorized="0"
+           self_time="8.785524E+000"
+           total_time="1.048118E+003"
+           trip_counts=""
+           func_instance="16"
+           priority="0"/>
+  <hotspot filename="c:\users\artyom\documents\visual studio 2015\projects\nucovering\nucovering\fragmentation.cpp"
+           line_no="594"
+           routine="high_level_analysis::GetSolution"
+           is_vectorized="0"
+           self_time="0.000000E+000"
+           total_time="1.073198E+003"
+           trip_counts=""
+           func_instance="11"
+           priority="0"/>
+  <hotspot filename="c:\users\artyom\documents\visual studio 2015\projects\nucovering\nucovering\fragmentation.cpp"
+           line_no="580"
+           routine="high_level_analysis::GetSolution"
+           is_vectorized="0"
+           self_time="0.000000E+000"
+           total_time="1.073218E+003"
+           trip_counts=""
+           func_instance="13"
+           priority="0"/>
+  <hotspot filename="f:\dd\vctools\crt\vcstartup\src\heap\new_scalar.cpp"
+           line_no="19"
+           routine="operator new"
+           is_vectorized="0"
+           self_time="0.000000E+000"
+           total_time="2.841818E-001"
+           trip_counts=""
+           func_instance="136"
+           priority="0"/>
+</IntelParallelAdvisorSummary >
